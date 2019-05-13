@@ -1,0 +1,20 @@
+
+minio:
+  endpoint: http://192.168.31.102:9000
+  access-key: PU0Q2QWK1P0PAF149VOX
+  secret-key: XAR18IU5+6qbWTwOq2tB+Rc+dB7+YmYYcIVjqbVc
+  bucket: ibed
+server:
+  servlet:
+    context-path: /oss
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 50MB
+  data:
+    elasticsearch:
+      cluster-name: cluster-oss
+      cluster-nodes: 192.168.31.102:9300
+      repositories:
+        enabled: true
