@@ -19,6 +19,16 @@ public class SysConst {
     public static final String SEP_DOT = ".";
 
     /**
+     * 分隔符 - 逗号
+     */
+    public static final String SEP_COMMA = ",";
+
+    /**
+     * key - id
+     */
+    public static final String KEY_ID = "id";
+
+    /**
      * key - filename
      */
     public static final String KEY_FILENAME = "filename";

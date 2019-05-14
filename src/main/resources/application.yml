@@ -6,7 +6,7 @@ minio:
   bucket: ibed
 server:
   servlet:
-    context-path: /oss
+    context-path: /fileservice
 spring:
   servlet:
     multipart:

@@ -33,7 +33,6 @@ import org.apache.lucene.search.highlight.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 /**
  * @author Administrator
@@ -50,8 +49,7 @@ public class LuceneService {
      * @throws IOException IOException
      */
     private Directory getDirectory(String userName) throws IOException {
-        String path = ResourceUtils.getURL(ResourceUtils.CLASSPATH_URL_PREFIX).getPath();
-        String fileName = new File(path).getAbsolutePath() + "/lucene/" + userName;
+        String fileName = SysUtil.getLuceneRoot().concat(userName);
         File file = new File(fileName);
         if (!file.exists() && !file.mkdirs()) {
             throw new FileServiceRuntimeException("文件夹创建失败");
@@ -73,7 +71,7 @@ public class LuceneService {
     public boolean update(FileInfo fileInfo) {
         try (Directory directory = getDirectory(fileInfo.getUserName());
              IndexWriter indexWriter = new IndexWriter(directory, new IndexWriterConfig(getAnalyzer(fileInfo.getTags())))) {
-            indexWriter.updateDocument(new Term(SysConst.KEY_FILENAME, fileInfo.getFileName()), buildDocument(fileInfo));
+            indexWriter.updateDocument(new Term(SysConst.KEY_ID, fileInfo.getId()), buildDocument(fileInfo));
             indexWriter.commit();
         } catch (IOException e) {
             return false;
@@ -83,15 +81,16 @@ public class LuceneService {
 
     private Document buildDocument(FileInfo fileInfo){
         Document document = new Document();
-        document.add(new StringField(SysConst.KEY_FILENAME, fileInfo.getFileName(), Field.Store.YES));
+        document.add(new StringField(SysConst.KEY_ID, fileInfo.getFileName(), Field.Store.YES));
         document.add(new StringField(SysConst.KEY_TAGS, fileInfo.getTags(), Field.Store.YES));
+        document.add(new StringField(SysConst.KEY_FILENAME, fileInfo.getTags(), Field.Store.NO));
         return document;
     }
 
     public boolean delete(FileInfo fileInfo) {
         try (Directory directory = getDirectory(fileInfo.getUserName());
              IndexWriter indexWriter = new IndexWriter(directory, new IndexWriterConfig(new StandardAnalyzer()))) {
-            indexWriter.deleteDocuments(new Term(SysConst.KEY_FILENAME, fileInfo.getFileName()));
+            indexWriter.deleteDocuments(new Term(SysConst.KEY_ID, fileInfo.getId()));
             indexWriter.commit();
         } catch (IOException e) {
             return false;
@@ -121,12 +120,12 @@ public class LuceneService {
                 String tags = doc.get(SysConst.KEY_TAGS);
                 if (tags != null) {
                     TokenStream tokenStream = analyzer.tokenStream("tags", new StringReader(tags));
-                    list.add(new FileInfo().setFileName(doc.get(SysConst.KEY_FILENAME))
+                    list.add(new FileInfo().setId(doc.get(SysConst.KEY_ID)).setFileName(doc.get(SysConst.KEY_FILENAME))
                             .setTags(highlighter.getBestFragment(tokenStream, tags)));
                 }
             }
         } catch (IOException | ParseException | InvalidTokenOffsetsException ex) {
-
+            throw new FileServiceRuntimeException("搜索失败");
         }
         return list;
     }

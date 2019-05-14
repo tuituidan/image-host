@@ -10,10 +10,10 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * UploaderController.
@@ -28,10 +28,8 @@ public class UploaderController {
     private UploaderService uploaderService;
 
     @PostMapping("/v1/upload")
-    public ResponseEntity<Map> upload(@RequestParam("file") MultipartFile file,
-                                      @RequestBody FileInfo fileInfo) {
-
-        uploaderService.upload(file, fileInfo);
+    public ResponseEntity<Map> upload(@Valid @RequestBody FileInfo fileInfo) {
+        uploaderService.upload(fileInfo);
         return ResponseEntity.ok(
                 new HashMap<String, Object>(2)
         );
@@ -41,15 +39,13 @@ public class UploaderController {
     private LuceneService luceneService;
 
     @GetMapping("/test/{user}/{tag}")
-    public String test(@PathVariable("user") String user,@PathVariable("tag") String tag){
-        return String.valueOf(luceneService.create(new FileInfo().setId(UUID.randomUUID().toString()).setUserName(user).setTags(tag)));
+    public String test(@PathVariable("user") String user, @PathVariable("tag") String tag) {
+        return String.valueOf(luceneService.create(new FileInfo().setFileName(UUID.randomUUID().toString()).setUserName(user).setTags(tag)));
     }
 
-    public ResponseEntity<Boolean> update(@RequestBody FileInfo fileInfo){
+    public ResponseEntity<Boolean> update(@RequestBody FileInfo fileInfo) {
         return ResponseEntity.ok(true);
     }
-
-
 
 
     @GetMapping("/list/{search}")
