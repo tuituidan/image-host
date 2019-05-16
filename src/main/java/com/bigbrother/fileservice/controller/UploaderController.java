@@ -4,9 +4,7 @@ import com.bigbrother.fileservice.dto.FileInfo;
 import com.bigbrother.fileservice.service.LuceneService;
 import com.bigbrother.fileservice.service.UploaderService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -28,11 +26,10 @@ public class UploaderController {
     private UploaderService uploaderService;
 
     @PostMapping("/v1/upload")
-    public ResponseEntity<Map> upload(@Valid @RequestBody FileInfo fileInfo) {
+    public ResponseEntity<FileInfo> upload(@Valid @RequestBody FileInfo fileInfo) {
+        fileInfo.setId(UUID.randomUUID().toString());
         uploaderService.upload(fileInfo);
-        return ResponseEntity.ok(
-                new HashMap<String, Object>(2)
-        );
+        return ResponseEntity.ok(fileInfo);
     }
 
     @Resource
@@ -40,13 +37,23 @@ public class UploaderController {
 
     @GetMapping("/test/{user}/{tag}")
     public String test(@PathVariable("user") String user, @PathVariable("tag") String tag) {
-        return String.valueOf(luceneService.create(new FileInfo().setFileName(UUID.randomUUID().toString()).setUserName(user).setTags(tag)));
+        String id = UUID.randomUUID().toString();
+        return String.valueOf(luceneService.create(new FileInfo().setId(id)
+                .setUserName(user).setTags(tag)));
     }
+
 
     public ResponseEntity<Boolean> update(@RequestBody FileInfo fileInfo) {
         return ResponseEntity.ok(true);
     }
 
+    /**
+     * 修补
+     * @return
+     */
+    public ResponseEntity<Boolean> patch(String tags,String objectName){
+        return ResponseEntity.ok(true);
+    }
 
     @GetMapping("/list/{search}")
     public ResponseEntity<List> lists(@PathVariable("search") String txt) {

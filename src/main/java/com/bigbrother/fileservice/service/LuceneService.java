@@ -32,18 +32,20 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.highlight.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  * @author Administrator
  */
 @Slf4j
-@Service
+@Service()
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class LuceneService {
 
-
     /**
-     *
      * @param userName String
      * @return Directory
      * @throws IOException IOException
@@ -57,18 +59,18 @@ public class LuceneService {
         return FSDirectory.open(Paths.get(fileName));
     }
 
-    public boolean create(FileInfo fileInfo) {
+    public synchronized boolean create(FileInfo fileInfo) {
         try (Directory directory = getDirectory(fileInfo.getUserName());
              IndexWriter indexWriter = new IndexWriter(directory, new IndexWriterConfig(getAnalyzer(fileInfo.getTags())))) {
             indexWriter.addDocument(buildDocument(fileInfo));
             indexWriter.commit();
         } catch (IOException e) {
-            return false;
+            throw new FileServiceRuntimeException("索引创建失败");
         }
         return true;
     }
 
-    public boolean update(FileInfo fileInfo) {
+    public synchronized boolean update(FileInfo fileInfo) {
         try (Directory directory = getDirectory(fileInfo.getUserName());
              IndexWriter indexWriter = new IndexWriter(directory, new IndexWriterConfig(getAnalyzer(fileInfo.getTags())))) {
             indexWriter.updateDocument(new Term(SysConst.KEY_ID, fileInfo.getId()), buildDocument(fileInfo));
@@ -79,15 +81,15 @@ public class LuceneService {
         return true;
     }
 
-    private Document buildDocument(FileInfo fileInfo){
+    private Document buildDocument(FileInfo fileInfo) {
         Document document = new Document();
-        document.add(new StringField(SysConst.KEY_ID, fileInfo.getFileName(), Field.Store.YES));
+        document.add(new StringField(SysConst.KEY_ID, fileInfo.getId(), Field.Store.YES));
         document.add(new StringField(SysConst.KEY_TAGS, fileInfo.getTags(), Field.Store.YES));
-        document.add(new StringField(SysConst.KEY_FILENAME, fileInfo.getTags(), Field.Store.NO));
+        document.add(new StringField(SysConst.KEY_FILENAME, fileInfo.getFileName(), Field.Store.NO));
         return document;
     }
 
-    public boolean delete(FileInfo fileInfo) {
+    public synchronized boolean delete(FileInfo fileInfo) {
         try (Directory directory = getDirectory(fileInfo.getUserName());
              IndexWriter indexWriter = new IndexWriter(directory, new IndexWriterConfig(new StandardAnalyzer()))) {
             indexWriter.deleteDocuments(new Term(SysConst.KEY_ID, fileInfo.getId()));
@@ -99,12 +101,12 @@ public class LuceneService {
     }
 
 
-    public boolean rebuild() {
+    public synchronized boolean rebuild() {
         //TODO 重建索引
         return true;
     }
 
-    public List<FileInfo> search(FileInfo fileInfo) {
+    public synchronized List<FileInfo> search(FileInfo fileInfo) {
         List<FileInfo> list = new ArrayList<>();
         try (Directory directory = getDirectory(fileInfo.getUserName());
              DirectoryReader reader = DirectoryReader.open(directory)) {
