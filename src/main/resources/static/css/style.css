@@ -134,3 +134,36 @@ blockquote {
         transform: rotate(10deg);
     }
 }
+
+/* search**/
+nav .input-field label i {
+    color: #444444;
+}
+nav .input-field label.active i {
+    color: #444444;
+}
+.input-field input[type=search] {
+    background-color: white;
+    color: #444444;
+}
+.card .card-image .card-title {
+    padding: 5px;
+}
+.card .card-title {
+    font-size: 16px;
+}
+.card.small .card-image, .card.medium .card-image, .card.large .card-image {
+    max-height: 63%;
+}
+.card .card-action {
+    padding: 12px;
+}
+.card .card-content {
+    padding: 12px;
+}
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-floating) {
+    color: #039be5;
+}
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-floating):hover {
+    color: #039be5;
+}
