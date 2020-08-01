@@ -1,2 +1,2 @@
-# fileservice
-使用SpringBoot+Minio+Lucene+Webuploader实现文件服务，为上传文件打上标签，使用Lucene为标签建索引方便查找
+# 个人图床
+使用springboot+minio+elasticsearch+webuploader实现图床，支持给图片打标签，使用elasticsearch搜索，支持图片压缩，支持分片上传，秒传，断点续传
