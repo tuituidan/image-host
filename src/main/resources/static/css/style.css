@@ -153,11 +153,22 @@ nav .input-field label.active i {
 .card .card-image .card-title {
     padding: 5px;
 }
-.card .card-title {
-    font-size: 16px;
+.card .card-image video {
+    display: block;
+    border-radius: 2px 2px 0 0;
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
 }
-.card.small .card-image, .card.medium .card-image, .card.large .card-image {
-    max-height: 63%;
+.card .card-title {
+    font-size: 15px;
+    font-weight: bold;
+}
+.card .card-content .card-title {
+    line-height: 20px;
 }
 .card .card-action {
     padding: 12px;
@@ -170,4 +181,7 @@ nav .input-field label.active i {
 }
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-floating):hover {
     color: #039be5;
+}
+.real-content{
+    line-height: 38px;
 }
