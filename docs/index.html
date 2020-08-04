@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>个人图床</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="libs/webuploader/webuploader.css">
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body>
+  <nav class="blue-grey darken-3" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" class="brand-logo"><img alt="logo" src="images/1173331.png"></a>
+      <ul class="left menu-bar hide-on-med-and-down">
+        <li class="active"><a><i class="material-icons left">cloud_upload</i>图片上传</a></li>
+        <li><a href="search.html"><i class="material-icons left">search</i>图片搜索</a></li>
+      </ul>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="https://github.com/tuituidan" class="github-corner" target="_blank" title="Follow me on GitHub" aria-label="Follow me on GitHub">
+          <svg width="62" height="62" viewBox="0 0 250 250" class="github-svg" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="section no-pad-bot">
+    <div class="container upload-container">
+      <div id="uploader" class="uploader"></div>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons teal-text prefix">local_offer</i>
+              <input id="icon_prefix" type="text" class="validate">
+              <label for="icon_prefix">请输入您希望用于搜索以上图片的标签信息</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s2">
+              <input type="checkbox" class="filled-in" id="filled-in-box" />
+              <label for="filled-in-box">压缩</label>
+            </div>
+            <div class="col s6">
+            </div>
+            <div class="col s2">
+              <a class="white teal-text btn right"><i class="material-icons left">loop</i>重置</a>
+            </div>
+            <div class="col s2">
+              <a class="btn right"><i class="material-icons left">backup</i>上传</a>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <blockquote class="teal lighten-5">
+          <b class="teal-text">说明：</b><br />
+          <p class="text-color content">
+            1. 可以将图片拖拽到虚线框中，或者使用截图工具截图然后在虚线框中粘贴，或者点击添加图片按钮；<br />
+            2. 一次最多可上传 <code>10 </code>个文件，每个文件大小不超过 <code>10 MB</code>；<br />
+            3. 支持上传的文件类型：<code>jpg</code>、<code>png</code>、<code>gif</code>、<code>svg</code>、<code>bmp</code>、
+            <code>tif</code>、<code>flv</code>、<code>mp3</code>、<code>mp4</code>、<code>pdf</code>、<code>json</code>、
+            <code>html</code>、<code>css</code>、<code>js</code>、<code>xml</code>、<code>txt</code>等；<br />
+            4. 上传完成后<b>单击</b>文件即可将文件 <code>URL</code> 链接复制到剪贴板中，<b>双击</b>则会在新标签页中打开预览文件；
+          </p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="section">
+      <div class="row">
+        <div class="chip orange white-text">
+          对象存储
+        </div>
+        <div class="chip orange white-text">
+          标签检索
+        </div>
+        <div class="chip orange white-text">
+          拖曳上传
+        </div>
+        <div class="chip orange white-text">
+          粘贴上传
+        </div>
+        <div class="chip orange white-text">
+          分片上传
+        </div>
+        <div class="chip orange white-text">
+          秒传
+        </div>
+        <div class="chip orange white-text">
+          断点续传
+        </div>
+        <div class="chip orange white-text">
+          图片压缩
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--  Scripts-->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/materialize.min.js"></script>
+  <script src="js/clipboard.min.js"></script>
+  <script src="js/common.js"></script>
+  <script src="libs/webuploader/webuploader.js"></script>
+  <script src="libs/webuploader/uploader.js"></script>
+  <script src="js/index.js"></script>
+
+  </body>
+</html>

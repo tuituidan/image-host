@@ -1,0 +1,187 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+	font-size: inherit;
+}
+.menu-bar{
+    margin-left: 80px;
+}
+blockquote {
+    border-left: 5px solid #009688;
+    padding: 10px;
+}
+.upload-container{
+    margin-top: 60px;
+}
+
+/* GitHub Cornor */
+.github-corner :hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+}
+.github-svg{
+    fill:#263238; color:#fff; position: absolute; top: 0; border: 0; right: 0;
+}
+@media (max-width: 991px) {
+    .github-corner >svg {
+        fill: #fff !important;
+        color: #008000 !important;
+    }
+    .github-corner .github-corner:hover .octo-arm {
+        animation: none;
+    }
+    .github-corner .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out;
+    }
+}
+@-moz-keyframes octocat-wave {
+    0%, 100% {
+        -webkit-transform: rotate(0);
+        -moz-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -o-transform: rotate(0);
+        transform: rotate(0);
+    }
+    20%, 60% {
+        -webkit-transform: rotate(-25deg);
+        -moz-transform: rotate(-25deg);
+        -ms-transform: rotate(-25deg);
+        -o-transform: rotate(-25deg);
+        transform: rotate(-25deg);
+    }
+    40%, 80% {
+        -webkit-transform: rotate(10deg);
+        -moz-transform: rotate(10deg);
+        -ms-transform: rotate(10deg);
+        -o-transform: rotate(10deg);
+        transform: rotate(10deg);
+    }
+}
+@-webkit-keyframes octocat-wave {
+    0%, 100% {
+        -webkit-transform: rotate(0);
+        -moz-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -o-transform: rotate(0);
+        transform: rotate(0);
+    }
+    20%, 60% {
+        -webkit-transform: rotate(-25deg);
+        -moz-transform: rotate(-25deg);
+        -ms-transform: rotate(-25deg);
+        -o-transform: rotate(-25deg);
+        transform: rotate(-25deg);
+    }
+    40%, 80% {
+        -webkit-transform: rotate(10deg);
+        -moz-transform: rotate(10deg);
+        -ms-transform: rotate(10deg);
+        -o-transform: rotate(10deg);
+        transform: rotate(10deg);
+    }
+}
+@-o-keyframes octocat-wave {
+    0%, 100% {
+        -webkit-transform: rotate(0);
+        -moz-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -o-transform: rotate(0);
+        transform: rotate(0);
+    }
+    20%, 60% {
+        -webkit-transform: rotate(-25deg);
+        -moz-transform: rotate(-25deg);
+        -ms-transform: rotate(-25deg);
+        -o-transform: rotate(-25deg);
+        transform: rotate(-25deg);
+    }
+    40%, 80% {
+        -webkit-transform: rotate(10deg);
+        -moz-transform: rotate(10deg);
+        -ms-transform: rotate(10deg);
+        -o-transform: rotate(10deg);
+        transform: rotate(10deg);
+    }
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        -webkit-transform: rotate(0);
+        -moz-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -o-transform: rotate(0);
+        transform: rotate(0);
+    }
+    20%, 60% {
+        -webkit-transform: rotate(-25deg);
+        -moz-transform: rotate(-25deg);
+        -ms-transform: rotate(-25deg);
+        -o-transform: rotate(-25deg);
+        transform: rotate(-25deg);
+    }
+    40%, 80% {
+        -webkit-transform: rotate(10deg);
+        -moz-transform: rotate(10deg);
+        -ms-transform: rotate(10deg);
+        -o-transform: rotate(10deg);
+        transform: rotate(10deg);
+    }
+}
+
+/* search**/
+.search-panel{
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+nav .input-field label i {
+    color: #444444;
+}
+nav .input-field label.active i {
+    color: #444444;
+}
+.input-field input[type=search] {
+    background-color: white;
+    color: #444444;
+}
+.card .card-image .card-title {
+    padding: 5px;
+}
+.card .card-image video {
+    display: block;
+    border-radius: 2px 2px 0 0;
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+.card .card-title {
+    font-size: 15px;
+    font-weight: bold;
+}
+.card .card-content .card-title {
+    line-height: 20px;
+}
+.card .card-action {
+    padding: 12px;
+}
+.card .card-content {
+    padding: 12px;
+}
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-floating) {
+    color: #039be5;
+}
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-floating):hover {
+    color: #039be5;
+}
+.real-content{
+    line-height: 38px;
+}
