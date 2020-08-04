@@ -14,6 +14,19 @@
     <name>image-host</name>
     <description>私人图床</description>
 
+    <developers>
+        <developer>
+            <name>tuituidan</name>
+            <email>tuituidan@163.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>git@github.com:tuituidan/image-host.git</connection>
+        <developerConnection>git@github.com:tuituidan/image-host.git</developerConnection>
+        <url>https://github.com/tuituidan/image-host.git</url>
+    </scm>
+
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -26,6 +39,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

@@ -177,10 +177,10 @@ nav .input-field label.active i {
     padding: 12px;
 }
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-floating) {
-    color: #039be5;
+    color: #009688;
 }
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-floating):hover {
-    color: #039be5;
+    color: #009688;
 }
 .real-content{
     line-height: 38px;
