@@ -5,8 +5,8 @@
 
 ## 图片上传页
 
-![index](show/index.png)
+![index](show/index.jpg)
 
 ## 图片搜索页
 
-![index](show/search.png)
+![index](show/search.jpg)
