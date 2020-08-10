@@ -18,4 +18,14 @@ public class ImageHostException extends RuntimeException {
     public ImageHostException(String message) {
         super(message);
     }
+
+    /**
+     * 根据 Message 来构造异常实例.
+     *
+     * @param message 消息
+     * @param e       Throwable实例
+     */
+    public ImageHostException(String message, Throwable e) {
+        super(message, e);
+    }
 }
