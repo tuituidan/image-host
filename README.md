@@ -5,8 +5,8 @@
 
 ## 图片上传页
 
-![index](show/index.jpg)
+![index](https://raw.githubusercontent.com/tuituidan/image-host/develop/show/index.jpg)
 
 ## 图片搜索页
 
-![index](show/search.jpg)
+![index](https://raw.githubusercontent.com/tuituidan/image-host/develop/show/search.jpg)
