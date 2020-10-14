@@ -45,12 +45,12 @@ public class UploadService {
      */
     public String uploadBase64(InputStream inputStream) {
         String base64Str;
-        try {
-            base64Str = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+        try (InputStream sourceIn = inputStream) {
+            base64Str = IOUtils.toString(sourceIn, StandardCharsets.UTF_8);
         } catch (Exception ex) {
             throw ImageHostException.builder().error("获取base64数据失败", ex).build();
         }
-        Pair<String, String> base64 = StringKit.getBase64(base64Str);
+        Pair<String, String> base64 = StringKit.getBase64Info(base64Str);
         if (null == base64) {
             throw ImageHostException.builder().error("base64数据格式错误-{}", base64Str).build();
         }
@@ -59,7 +59,10 @@ public class UploadService {
 
     /**
      * 文件上传.
-     *
+     * TODO id 缩短
+     * TODO 分片上传
+     * TODO 秒传
+     * TODO 断点续传
      * @param fileInfo fileInfo
      * @return String
      */

@@ -53,7 +53,7 @@ public class StringKit {
      * @param source String
      * @return Pair
      */
-    public static Pair<String, String> getBase64(String source) {
+    public static Pair<String, String> getBase64Info(String source) {
         String[] datas = StringUtils.split(source, Separator.COMMA);
         Matcher matcher = PATTERN.matcher(datas[0]);
         if (matcher.find()) {
