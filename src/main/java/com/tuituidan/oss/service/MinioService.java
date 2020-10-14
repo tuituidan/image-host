@@ -1,7 +1,7 @@
 package com.tuituidan.oss.service;
 
 import com.tuituidan.oss.config.MinioConfig;
-import com.tuituidan.oss.consts.Consts;
+import com.tuituidan.oss.consts.Separator;
 import com.tuituidan.oss.exception.base.ExceptionBuilder;
 import com.tuituidan.oss.kit.FileTypeKit;
 
@@ -85,7 +85,7 @@ public class MinioService {
      * @return URL 地址
      */
     public String getObjectUrl(String objectName) {
-        return StringUtils.join(minioConfig.getEndpoint(), Consts.SEP,
-                minioConfig.getBucket(), Consts.SEP, objectName);
+        return StringUtils.join(minioConfig.getEndpoint(), Separator.SLASH,
+                minioConfig.getBucket(), Separator.SLASH, objectName);
     }
 }
