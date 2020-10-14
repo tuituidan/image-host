@@ -1,8 +1,11 @@
 package com.tuituidan.oss.config;
 
+import io.minio.MinioClient;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -25,4 +28,10 @@ public class MinioConfig {
     private String secretKey;
 
     private String bucket;
+
+    @Bean
+    public MinioClient getMinioClient() {
+        return MinioClient.builder().endpoint(endpoint).credentials(accessKey, secretKey).build();
+    }
+
 }

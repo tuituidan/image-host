@@ -7,4 +7,4 @@ minio:
   endpoint: http://127.0.0.1:9000
   access-key: minio
   secret-key: 12345678
-  bucket: ibed
+  bucket: image-host

@@ -74,15 +74,22 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <!--图片压缩-->
         <dependency>
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
             <version>0.4.8</version>
         </dependency>
         <dependency>
+            <groupId>org.jpedal</groupId>
+            <artifactId>OpenViewerFX</artifactId>
+            <version>6.6.14</version>
+        </dependency>
+        <!--对象存储-->
+        <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
-            <version>6.0.2</version>
+            <version>7.1.4</version>
         </dependency>
     </dependencies>
 

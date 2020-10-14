@@ -1,5 +1,7 @@
 package com.tuituidan.oss.exception;
 
+import com.tuituidan.oss.exception.base.AbstractException;
+
 /**
  * MinioException.
  *
@@ -7,16 +9,16 @@ package com.tuituidan.oss.exception;
  * @version 1.0
  * @date 2020/8/11
  */
-public class MinioRuntimeException extends RuntimeException {
+public class MinioRuntimeException extends AbstractException {
     private static final long serialVersionUID = -6271373259444097860L;
 
     /**
-     * 根据 Message 来构造异常实例.
+     * 用于自定义异常.
      *
-     * @param message 消息
-     * @param e       Throwable实例
+     * @param message String
+     * @param args    Object...
      */
-    public MinioRuntimeException(String message, Throwable e) {
-        super(message, e);
+    public MinioRuntimeException(String message, Object... args) {
+        super(message, args);
     }
 }

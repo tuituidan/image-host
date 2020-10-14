@@ -94,4 +94,14 @@ public class FileTypeKit {
     public static boolean canCompress(String ext) {
         return COMPRESS_EXTS.contains(ext);
     }
+
+    /**
+     * 是否png.
+     *
+     * @param ext 文件扩展名，不含点 ({@code .}) 号
+     * @return 布尔值
+     */
+    public static boolean isPng(String ext) {
+        return "png".contains(ext);
+    }
 }
