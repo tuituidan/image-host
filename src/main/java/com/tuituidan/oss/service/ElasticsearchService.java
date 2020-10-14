@@ -4,11 +4,11 @@ import com.tuituidan.oss.bean.FileDoc;
 import com.tuituidan.oss.bean.FileInfo;
 import com.tuituidan.oss.bean.FileQuery;
 import com.tuituidan.oss.kit.BeanKit;
-import com.tuituidan.oss.kit.ThreadPoolKit;
 import com.tuituidan.oss.repository.FileDocRepository;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Resource;
 
@@ -43,8 +43,14 @@ public class ElasticsearchService {
     @Resource
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
+    /**
+     * 异步存文件信息.
+     *
+     * @param objName  objName
+     * @param fileInfo fileInfo
+     */
     public void asyncSaveFileDoc(String objName, FileInfo fileInfo) {
-        ThreadPoolKit.execute(() -> {
+        CompletableFuture.runAsync(() -> {
             FileDoc fileDoc = BeanKit.convert(fileInfo, FileDoc.class);
             fileDoc.setPath(objName);
             fileDoc.setCreateDate(LocalDateTime.now());
@@ -61,14 +67,14 @@ public class ElasticsearchService {
     public Page<FileDoc> search(FileQuery fileQuery) {
         // 拼接查询参数
         NativeSearchQueryBuilder searchQueryBuilder = new NativeSearchQueryBuilder()
-                // 高亮标签显示
-                .withHighlightFields(
-                        new HighlightBuilder.Field("tags").preTags("<span style=\"color:red\">").postTags("</span>"))
+                .withHighlightFields()
                 // 分页查询
                 .withPageable(PageRequest.of(fileQuery.getPageIndex(), fileQuery.getPageSize()))
                 // 排序
                 .withSort(SortBuilders.scoreSort());
         if (StringUtils.isNotBlank(fileQuery.getTags())) {
+            // 高亮标签显示
+            searchQueryBuilder.withHighlightFields(new HighlightBuilder.Field("tags").preTags("<span style=\"color:red\">").postTags("</span>"));
             searchQueryBuilder.withQuery(QueryBuilders.matchQuery("tags", fileQuery.getTags()))
                     .withSort(SortBuilders.scoreSort());
         } else {

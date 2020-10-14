@@ -2,7 +2,7 @@ package com.tuituidan.oss.service;
 
 import com.tuituidan.oss.config.MinioConfig;
 import com.tuituidan.oss.consts.Separator;
-import com.tuituidan.oss.exception.base.ExceptionBuilder;
+import com.tuituidan.oss.exception.ImageHostException;
 import com.tuituidan.oss.kit.FileTypeKit;
 
 import io.minio.*;
@@ -44,7 +44,7 @@ public class MinioService {
                 log.info("【{}】的桶已经创建成功，目前请手动设置该桶为只读。", minioConfig.getBucket());
             }
         } catch (Exception ex) {
-            throw ExceptionBuilder.builder().error("初始化创建 MinioClient 出错，请检查！", ex).build();
+            throw ImageHostException.builder().error("初始化创建 MinioClient 出错，请检查！", ex).build();
         }
     }
 
@@ -61,7 +61,7 @@ public class MinioService {
                     .object(objectName)
                     .stream(inputStream, -1, ObjectWriteArgs.MIN_MULTIPART_SIZE * 4).build());
         } catch (Exception ex) {
-            throw ExceptionBuilder.builder().error("向 Minio 中上传文件出错，文件名称-【{}】", objectName, ex).build();
+            throw ImageHostException.builder().error("向 Minio 中上传文件出错，文件名称-【{}】", objectName, ex).build();
         }
     }
 
@@ -74,7 +74,7 @@ public class MinioService {
         try {
             minioClient.removeObject(RemoveObjectArgs.builder().bucket(minioConfig.getBucket()).object(objectName).build());
         } catch (Exception ex) {
-            throw ExceptionBuilder.builder().error("从 Minio 中删除文件出错，文件名称-【{}】", objectName, ex).build();
+            throw ImageHostException.builder().error("从 Minio 中删除文件出错，文件名称-【{}】", objectName, ex).build();
         }
     }
 

@@ -20,6 +20,7 @@ import net.coobird.thumbnailator.Thumbnails;
 @UtilityClass
 @Slf4j
 public class CompressKit {
+
     /**
      * 图片质量.
      */

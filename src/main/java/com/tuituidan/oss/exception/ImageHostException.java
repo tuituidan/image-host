@@ -1,4 +1,4 @@
-package com.tuituidan.oss.exception.base;
+package com.tuituidan.oss.exception;
 
 import com.tuituidan.oss.kit.StringKit;
 
@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2020/10/14
  */
 @Slf4j
-public class ExceptionBuilder extends AbstractException {
+public class ImageHostException extends RuntimeException {
 
     private static final long serialVersionUID = -6611783498373065076L;
 
@@ -26,7 +26,7 @@ public class ExceptionBuilder extends AbstractException {
      * @param error error
      * @param cause cause
      */
-    private ExceptionBuilder(String tip, String error, Throwable cause) {
+    private ImageHostException(String tip, String error, Throwable cause) {
         super(error, cause);
         this.tip = tip;
     }
@@ -58,8 +58,8 @@ public class ExceptionBuilder extends AbstractException {
             return this;
         }
 
-        public ExceptionBuilder build() {
-            return new ExceptionBuilder(this.tip, this.error, this.cause);
+        public ImageHostException build() {
+            return new ImageHostException(this.tip, this.error, this.cause);
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.tuituidan.oss.kit;
 
-import com.tuituidan.oss.exception.base.ExceptionBuilder;
+import com.tuituidan.oss.exception.ImageHostException;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.beans.BeanUtils;
@@ -36,7 +36,7 @@ public class BeanKit {
         try {
             return cls.getDeclaredConstructor().newInstance();
         } catch (Exception ex) {
-            throw ExceptionBuilder.builder().error("转换错误-{}", cls.getName(), ex).build();
+            throw ImageHostException.builder().error("反射创建对象失败，className：【{}】", cls.getName(), ex).build();
         }
     }
 

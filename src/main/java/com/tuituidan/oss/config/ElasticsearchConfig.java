@@ -1,6 +1,6 @@
 package com.tuituidan.oss.config;
 
-import com.tuituidan.oss.exception.base.ExceptionBuilder;
+import com.tuituidan.oss.exception.ImageHostException;
 
 import lombok.Setter;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -33,7 +33,7 @@ public class ElasticsearchConfig extends AbstractElasticsearchConfiguration {
         try (RestHighLevelClient rest = RestClients.create(ClientConfiguration.builder().connectedTo(elasticEndpoint).build()).rest()) {
             return rest;
         } catch (Exception ex) {
-            throw ExceptionBuilder.builder().error("elasticsearchClient创建失败", ex).build();
+            throw ImageHostException.builder().error("elasticsearchClient创建失败", ex).build();
         }
     }
 }

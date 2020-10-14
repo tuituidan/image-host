@@ -12,8 +12,10 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Consts {
+
     /**
-     * 使用'/'来做分隔符，有些时候不用`File.separator`, 因为windows中用'\'时，在 Minio 中作为对象名会报错.
+     * API 版本1的前缀.
      */
+    public static final String API_V1 = "/api/v1";
 
 }
