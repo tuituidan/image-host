@@ -3,14 +3,14 @@ package com.tuituidan.oss.exception;
 import com.tuituidan.oss.exception.base.AbstractException;
 
 /**
- * MinioException.
+ * UnsupportedFileTypeException.
  *
  * @author zhujunhan
  * @version 1.0
- * @date 2020/8/11
+ * @date 2020/10/14
  */
-public class MinioRuntimeException extends AbstractException {
-    private static final long serialVersionUID = -6271373259444097860L;
+public class UnsupportedFileTypeException extends AbstractException {
+    private static final long serialVersionUID = 5997766988967009018L;
 
     /**
      * 用于自定义异常.
@@ -18,7 +18,7 @@ public class MinioRuntimeException extends AbstractException {
      * @param message String
      * @param args    Object...
      */
-    public MinioRuntimeException(String message, Object... args) {
+    public UnsupportedFileTypeException(String message, Object... args) {
         super(message, args);
     }
 }

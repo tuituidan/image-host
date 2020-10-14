@@ -17,7 +17,7 @@ public class ExceptionBuilder extends AbstractException {
 
     private static final long serialVersionUID = -6611783498373065076L;
 
-    private String tip = "";
+    private final String tip;
 
     /**
      * 非public只被ExceptionBuilder使用.
