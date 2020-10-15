@@ -3,7 +3,6 @@ package com.tuituidan.oss.kit;
 import com.tuituidan.oss.consts.Separator;
 
 import java.time.LocalDate;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,15 +25,6 @@ public class StringKit {
      * 从base64字符串中获取文件扩展名.
      */
     private static final Pattern PATTERN = Pattern.compile("data:image/(.*?);base64");
-
-    /**
-     * 获取uuid.
-     *
-     * @return string
-     */
-    public static String getUuid() {
-        return UUID.randomUUID().toString().replace("-", "");
-    }
 
     /**
      * 使用 Slf4j 中的字符串格式化方式来格式化字符串.

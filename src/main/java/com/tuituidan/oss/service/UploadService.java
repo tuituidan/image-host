@@ -4,6 +4,7 @@ import com.tuituidan.oss.bean.FileInfo;
 import com.tuituidan.oss.exception.ImageHostException;
 import com.tuituidan.oss.kit.CompressKit;
 import com.tuituidan.oss.kit.FileTypeKit;
+import com.tuituidan.oss.kit.IdKit;
 import com.tuituidan.oss.kit.StringKit;
 
 import java.io.ByteArrayInputStream;
@@ -59,10 +60,10 @@ public class UploadService {
 
     /**
      * 文件上传.
-     * TODO id 缩短
      * TODO 分片上传
      * TODO 秒传
      * TODO 断点续传
+     *
      * @param fileInfo fileInfo
      * @return String
      */
@@ -72,7 +73,7 @@ public class UploadService {
             throw ImageHostException.builder().tip("很抱歉，暂不支持上传该种类型的文件！").build();
         }
         fileInfo.setExt(ext);
-        fileInfo.setId(StringKit.getUuid());
+        fileInfo.setId(IdKit.getId());
         byte[] compressData = getCompressData(fileInfo);
         String objName = StringKit.getObjectName(fileInfo.getId(), fileInfo.getExt());
         try (InputStream inputStream = new ByteArrayInputStream(compressData)) {
