@@ -15,12 +15,12 @@ import lombok.experimental.UtilityClass;
 public class IdKit {
 
     private static final int SEQ_MIN = 1000;
-    private static final int SEQ_MAX = 9999;
+    private static final int SEQ_MAX = 9998;
 
     private static final AtomicInteger ID_SEQ = new AtomicInteger(SEQ_MIN);
 
     /**
-     * 获取短ID，要求1秒内的并发不超过9000.
+     * 获取短ID，要求1毫秒内的并发不超过9000.
      *
      * @return String
      */
