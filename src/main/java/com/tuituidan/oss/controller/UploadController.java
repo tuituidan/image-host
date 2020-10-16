@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletInputStream;
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,8 +46,8 @@ public class UploadController {
     @PostMapping("/actions/upload")
     public ResponseEntity<UploadResult> upload(@Valid FileInfo fileInfo) {
         Assert.isTrue(!fileInfo.getFile().isEmpty(), "上传文件不能为空！");
-        return ResponseEntity.ok(UploadResult.builder().id(fileInfo.getId())
-                .url(uploadService.upload(fileInfo)).build());
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(UploadResult.builder().id(fileInfo.getId()).url(uploadService.upload(fileInfo)).build());
     }
 
     /**
@@ -59,6 +60,6 @@ public class UploadController {
     @ApiImplicitParam(name = "inputStream", value = "base64编码据", required = true)
     @PostMapping("/base64/actions/upload")
     public ResponseEntity<String> base64(ServletInputStream inputStream) {
-        return ResponseEntity.ok(uploadService.uploadBase64(inputStream));
+        return ResponseEntity.status(HttpStatus.CREATED).body(uploadService.uploadBase64(inputStream));
     }
 }
