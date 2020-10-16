@@ -92,16 +92,13 @@ public class ElasticsearchService {
      * delete.
      *
      * @param id 需要删除的文件id
-     * @return boolean
      */
-    public boolean delete(String id) {
+    public void delete(String id) {
         Optional<FileDoc> fileDoc = fileDocRepository.findById(id);
         if (fileDoc.isPresent()) {
             fileDocRepository.deleteById(id);
             minioService.deleteObject(fileDoc.get().getPath());
-            return true;
         }
-        return false;
     }
 
 }

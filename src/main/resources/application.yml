@@ -1,6 +1,14 @@
-
+spring:
+  profiles:
+    active: local
+  application:
+    name: image-host
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
 elasticsearch:
-  elastic-endpoint: 172.16.14.182:9300
+  elastic-endpoint: 127.0.0.1:9300
 
 # Minio的配置，这是一个用于开发测试的 minio 地址.
 minio:
@@ -8,6 +16,3 @@ minio:
   access-key: minio
   secret-key: 12345678
   bucket: image-host
-spring:
-  profiles:
-    active: local
