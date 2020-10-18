@@ -29,7 +29,7 @@
 - `jpg`的压缩使用开源组件[thumbnailator](https://github.com/coobird/thumbnailator)，`png`压缩使用`OpenViewerFX`中的`PngCompressor`
 - 上传接口除了`webuploader`使用的，还提供了一个`base64`图片上传接口
 
-> elasticsearch需要安装ik中文分词插件，minio访问权限（Policy ）需要设置读写权限，图片链接才能访问，也是永久链接
+> elasticsearch需要安装ik中文分词插件
 
 # [点击访问DEMO演示](http://www.tuituidan.com/image-host)
 

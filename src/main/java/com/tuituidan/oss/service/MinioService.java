@@ -8,6 +8,7 @@ import com.tuituidan.oss.kit.FileTypeKit;
 import io.minio.*;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -15,7 +16,9 @@ import javax.annotation.Resource;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,14 +38,23 @@ public class MinioService {
     @Resource
     private MinioClient minioClient;
 
+
     @PostConstruct
     private void init() {
-        try {
-            // 如果该桶不存在，就创建一个，目前需要人为手动配置该桶为只读，后续可通过程序来设置.
+        try (InputStream inputStream = new ClassPathResource("config/minio-policy.json").getInputStream()) {
+            // 如果该桶不存在，就创建一个
             if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(minioConfig.getBucket()).build())) {
                 log.warn("【{}】的桶不存在，将会创建一个。", minioConfig.getBucket());
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(minioConfig.getBucket()).build());
-                log.info("【{}】的桶已经创建成功，目前请手动设置该桶为只读。", minioConfig.getBucket());
+
+                // 设置桶为只读权限，注意配置文件中Version的值必须和minio匹配，否则无法设置
+                String policy = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+                policy = policy.replace("bucket-name", minioConfig.getBucket());
+                minioClient.setBucketPolicy(SetBucketPolicyArgs.builder()
+                        .bucket(minioConfig.getBucket())
+                        .config(policy)
+                        .build());
+                log.info("【{}】的桶已经创建成功", minioConfig.getBucket());
             }
         } catch (Exception ex) {
             throw ImageHostException.builder().error("初始化创建 MinioClient 出错，请检查！", ex).build();
