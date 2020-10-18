@@ -46,25 +46,6 @@
         </nav>
     </div>
     <div class="row card-row">
-        <div class="col m3">
-            <div class="card small hoverable">
-                <div class="card-image">
-                    <video class="responsive-video" controls>
-                        <source src="images/1.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="card-content">
-                    <p class="truncate"><span class="left card-title">视频名称</span><span class="right">2020-08-02</span></p>
-                    <p title="我是用于搜索的标签，在上传时填写，并进行分词搜索。" class="truncate real-content">我是用于搜索的标签，在上传时填写，并进行分词搜索。</p>
-                </div>
-                <div class="card-action">
-                    <a href="#">复制</a>
-                    <a href="#">查看</a>
-                    <a href="#">下载</a>
-                    <a href="#">删除</a>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 <!--  Scripts-->
@@ -78,11 +59,11 @@
     <div class="col m3">
         <div class="card small hoverable">
             <div class="card-image">
-                <img class="materialboxed" data-caption="图片名称{{index}}" src="images/{{index}}.jpg">
+                <img class="materialboxed" data-caption="{{name}}" src="{{path}}">
             </div>
             <div class="card-content">
-                <p class="truncate"><span class="left card-title">图片名称{{index}}</span><span class="right">2020-08-02</span></p>
-                <p title="我是用于搜索的标签，在上传时填写，并进行分词搜索。" class="truncate real-content">我是用于搜索的标签，在上传时填写，并进行分词搜索。</p>
+                <p class="truncate"><span class="left card-title">{{name}}</span><span class="right">{{createDate.substring(0,10)}}</span></p>
+                <p title="{{tags}}" class="truncate real-content">{{tags}}</p>
             </div>
             <div class="card-action">
                 <a href="#">复制链接</a>

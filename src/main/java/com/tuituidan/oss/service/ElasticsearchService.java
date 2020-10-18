@@ -41,6 +41,9 @@ public class ElasticsearchService {
     private FileDocRepository fileDocRepository;
 
     @Resource
+    private HighLightService highLightService;
+
+    @Resource
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     /**
@@ -78,10 +81,11 @@ public class ElasticsearchService {
             searchQueryBuilder.withQuery(QueryBuilders.matchQuery("tags", fileQuery.getTags()))
                     .withSort(SortBuilders.scoreSort());
         } else {
+
             searchQueryBuilder.withSort(SortBuilders.fieldSort("createDate").order(SortOrder.DESC));
         }
 
-        Page<FileDoc> fileDocs = elasticsearchRestTemplate.queryForPage(searchQueryBuilder.build(), FileDoc.class);
+        Page<FileDoc> fileDocs = elasticsearchRestTemplate.queryForPage(searchQueryBuilder.build(), FileDoc.class, highLightService);
         if (CollectionUtils.isNotEmpty(fileDocs.getContent())) {
             fileDocs.getContent().forEach(item -> item.setPath(minioService.getObjectUrl(item.getPath())));
         }

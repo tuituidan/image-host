@@ -71,6 +71,11 @@
             <version>1.14</version>
         </dependency>
         <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.9</version>
@@ -80,7 +85,11 @@
             <artifactId>commons-collections4</artifactId>
             <version>4.2</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.74</version>
+        </dependency>
         <!--图片压缩-->
         <dependency>
             <groupId>net.coobird</groupId>

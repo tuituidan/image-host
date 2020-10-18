@@ -1,5 +1,10 @@
+var upload;
+
 (function ($) {
-    $(function () {
-        $('#uploader').createUploader();
-    });
+    upload = $('#uploader').createUploader();
 })(jQuery);
+function uploadHandler() {
+    upload.uploadFile(function (pics) {
+
+    });
+}

@@ -6,6 +6,7 @@ import com.tuituidan.oss.exception.ImageHostException;
 import com.tuituidan.oss.kit.FileTypeKit;
 
 import io.minio.*;
+import io.minio.messages.Tags;
 
 import java.io.InputStream;
 
@@ -54,11 +55,12 @@ public class MinioService {
      * @param objectName  对象名
      * @param inputStream 文件流
      */
-    public void putInputStream(String objectName, InputStream inputStream) {
+    public void putObject(String objectName, Tags tags, InputStream inputStream) {
         try {
             minioClient.putObject(PutObjectArgs.builder().bucket(minioConfig.getBucket())
                     .contentType(FileTypeKit.getMediaTypeValue(FilenameUtils.getExtension(objectName)))
                     .object(objectName)
+                    .tags(tags)
                     .stream(inputStream, -1, ObjectWriteArgs.MIN_MULTIPART_SIZE * 4).build());
         } catch (Exception ex) {
             throw ImageHostException.builder().error("向 Minio 中上传文件出错，文件名称-【{}】", objectName, ex).build();

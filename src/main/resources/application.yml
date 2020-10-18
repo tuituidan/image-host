@@ -7,8 +7,9 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 100MB
-elasticsearch:
-  elastic-endpoint: 127.0.0.1:9300
+  elasticsearch:
+    rest:
+      uris: 127.0.0.1:9200
 
 # Minio的配置，这是一个用于开发测试的 minio 地址.
 minio:

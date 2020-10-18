@@ -41,7 +41,6 @@
             // 允许上传的文件格式，主要是图片、音视频和浏览器能直接显示的文件类型等.
             acceptExt: "jpg,jpeg,gif,png,bmp,svg,psd,tif,webp,ico,flv,swf,avi,mov,wmv,mp3,mp4,wav,pdf,json,html,js,css,xml,md,txt",
             autoload: false, // 选择文件后是否自动上传
-            clientId: "image-host-" + WebUploader.Base.guid(),//随机的客户端唯一标识
             promptText: "",//上传控件下显示自定义提示信息，如上传大小，个数之类的
             deleteCallback: undefined //触发删除的回调函数，做一些删除处理
         };
@@ -322,8 +321,6 @@
 
             uploader.on('uploadBeforeSend', function (file, data, header) {
                 //需要token可在此添加
-                data.user = (sessionStorage.userinfo && $("input[name=areaType]:checked").val() === "1")
-                    ? JSON.parse(sessionStorage.userinfo).username : _this.clientId;
                 data.tags = $("#txt-tags").val();
                 data.compress = $('#compress-checkbox').is(':checked');
                 data.chunkSize = _this.chunkSize;

@@ -2,19 +2,20 @@ package com.tuituidan.oss.service;
 
 import com.tuituidan.oss.bean.FileInfo;
 import com.tuituidan.oss.exception.ImageHostException;
-import com.tuituidan.oss.kit.CompressKit;
-import com.tuituidan.oss.kit.FileTypeKit;
-import com.tuituidan.oss.kit.IdKit;
-import com.tuituidan.oss.kit.StringKit;
+import com.tuituidan.oss.kit.*;
+
+import io.minio.messages.Tags;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -74,10 +75,19 @@ public class UploadService {
         }
         fileInfo.setExt(ext);
         fileInfo.setId(IdKit.getId());
-        byte[] compressData = getCompressData(fileInfo);
+        byte[] sourceData = getDataFromFileInfo(fileInfo);
+        String md5 = DigestUtils.md5Hex(sourceData);
+        // TODO 这里判断原始文件【md5+是否压缩】是否已经存在，存在直接返回已有的数据实现不重复上传
+        if (fileInfo.isCompress()) {
+            sourceData = CompressKit.compress(fileInfo.getExt(), sourceData);
+        }
         String objName = StringKit.getObjectName(fileInfo.getId(), fileInfo.getExt());
-        try (InputStream inputStream = new ByteArrayInputStream(compressData)) {
-            minioService.putInputStream(objName, inputStream);
+        try (InputStream inputStream = new ByteArrayInputStream(sourceData)) {
+            Map<String, String> tags = HashMapKit.newFixQuarterSize();
+            tags.put("info", fileInfo.getTags());
+            tags.put("compress", String.valueOf(fileInfo.isCompress()));
+            tags.put("md5", md5);
+            minioService.putObject(objName, Tags.newObjectTags(tags), inputStream);
             elasticsearchService.asyncSaveFileDoc(objName, fileInfo);
             return minioService.getObjectUrl(objName);
         } catch (Exception ex) {
@@ -85,22 +95,15 @@ public class UploadService {
         }
     }
 
-    private byte[] getCompressData(FileInfo fileInfo) {
-        byte[] source;
+    private byte[] getDataFromFileInfo(FileInfo fileInfo) {
         try {
             // 如果是base64的，转换base64
             if (StringUtils.isNotBlank(fileInfo.getBase64())) {
-                source = Base64.getDecoder().decode(fileInfo.getBase64());
-            } else {
-                source = fileInfo.getFile().getBytes();
+                return Base64.getDecoder().decode(fileInfo.getBase64());
             }
+            return fileInfo.getFile().getBytes();
         } catch (Exception ex) {
             throw ImageHostException.builder().error("获取文件数据失败！", ex).build();
         }
-        if (!fileInfo.isCompress()) {
-            return source;
-        }
-        return CompressKit.compress(fileInfo.getExt(), source);
     }
-
 }

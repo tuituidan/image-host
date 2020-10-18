@@ -30,7 +30,7 @@ public class ApiDocConfig {
      */
     @Bean
     public Docket docket() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .groupName("API_1.0")
                 .apiInfo(apiInfo())
                 .select()
