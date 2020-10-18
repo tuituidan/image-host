@@ -4,8 +4,6 @@ import com.tuituidan.oss.bean.FileInfo;
 import com.tuituidan.oss.exception.ImageHostException;
 import com.tuituidan.oss.kit.*;
 
-import io.minio.messages.Tags;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -91,11 +89,12 @@ public class UploadService {
         }
         objName = StringKit.getObjectName(fileInfo.getId(), fileInfo.getExt());
         try (InputStream inputStream = new ByteArrayInputStream(sourceData)) {
+            // minio支持给文件打标签（老一些版本的minio不支持，但也不会报错），将这些信息也一并写入
             Map<String, String> tags = HashMapKit.newFixQuarterSize();
             tags.put("info", fileInfo.getTags());
             tags.put("compress", String.valueOf(fileInfo.isCompress()));
             tags.put("md5", md5);
-            minioService.putObject(objName, Tags.newObjectTags(tags), inputStream);
+            minioService.putObject(objName, tags, inputStream);
             elasticsearchService.asyncSaveFileDoc(objName, fileInfo);
             fileCacheService.put(md5, objName);
             return minioService.getObjectUrl(objName);

@@ -6,9 +6,9 @@ import com.tuituidan.oss.exception.ImageHostException;
 import com.tuituidan.oss.kit.FileTypeKit;
 
 import io.minio.*;
-import io.minio.messages.Tags;
 
 import java.io.InputStream;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -55,7 +55,7 @@ public class MinioService {
      * @param objectName  对象名
      * @param inputStream 文件流
      */
-    public void putObject(String objectName, Tags tags, InputStream inputStream) {
+    public void putObject(String objectName, Map<String, String> tags, InputStream inputStream) {
         try {
             minioClient.putObject(PutObjectArgs.builder().bucket(minioConfig.getBucket())
                     .contentType(FileTypeKit.getMediaTypeValue(FilenameUtils.getExtension(objectName)))

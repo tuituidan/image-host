@@ -8,7 +8,6 @@ import com.tuituidan.oss.repository.FileDocRepository;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Resource;
 
@@ -53,7 +52,7 @@ public class ElasticsearchService {
      * @param fileInfo fileInfo
      */
     public void asyncSaveFileDoc(String objName, FileInfo fileInfo) {
-        CompletableFuture.runAsync(() -> {
+        ThreadPoolKit.execute(() -> {
             FileDoc fileDoc = BeanKit.convert(fileInfo, FileDoc.class);
             fileDoc.setPath(objName);
             fileDoc.setCreateDate(LocalDateTime.now());

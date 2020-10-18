@@ -48,10 +48,11 @@ public class HighLightService implements SearchResultMapper {
             try {
                 T fileDoc = JSON.parseObject(searchHit.getSourceAsString(), clazz);
                 Map<String, HighlightField> highlightFields = searchHit.getHighlightFields();
-                if (MapUtils.isNotEmpty(highlightFields)) {
-                    for (Map.Entry<String, HighlightField> item : highlightFields.entrySet()) {
-                        BeanUtils.setProperty(fileDoc, item.getKey(), item.getValue().fragments()[0].toString());
-                    }
+                if (MapUtils.isEmpty(highlightFields)) {
+                    continue;
+                }
+                for (Map.Entry<String, HighlightField> item : highlightFields.entrySet()) {
+                    BeanUtils.setProperty(fileDoc, item.getKey(), item.getValue().fragments()[0].toString());
                 }
                 resultList.add(fileDoc);
             } catch (Exception e) {
