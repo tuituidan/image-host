@@ -25,7 +25,7 @@ public class FileCacheService {
     private static final int MAX_SIZE = 2048;
 
     /**
-     * 内部的缓存对象，{@code key} 是文件的 {@code MD5} 值，{@code value} 是在 MinIO 中的图片链接地址.
+     * 内部的缓存对象.
      */
     private static final Cache<String, String> CACHE = Caffeine.newBuilder()
             .expireAfterWrite(EXPIRE, TimeUnit.DAYS)
@@ -38,16 +38,14 @@ public class FileCacheService {
 
     @PostConstruct
     private void init() {
-        fileDocRepository.findAll().forEach(item ->
-                CACHE.put(item.getMd5(), item.getPath())
-        );
+        fileDocRepository.findAll().forEach(item -> CACHE.put(item.getMd5(), item.getPath()));
     }
 
     /**
      * put.
      *
-     * @param md5      md5
-     * @param url      url
+     * @param md5 md5
+     * @param url url
      */
     public void put(String md5, String url) {
         CACHE.put(md5, url);

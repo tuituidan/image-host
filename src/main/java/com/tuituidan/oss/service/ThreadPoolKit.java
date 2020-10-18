@@ -35,7 +35,7 @@ public class ThreadPoolKit {
         int maximumPoolSize = 2 * corePoolNum;
         THREADPOOL = new ThreadPoolExecutor(corePoolNum, maximumPoolSize, KEEP_ALIVE_TIME, TimeUnit.MINUTES,
                 new ArrayBlockingQueue<>(TASK_QUEUE_SIZE),
-                new ThreadFactoryBuilder().setNameFormat("image-host-elastic-save-%d").build(), (r, executor) -> {
+                new ThreadFactoryBuilder().setNameFormat("image-host-%d").build(), (r, executor) -> {
             if (!executor.isShutdown()) {
                 try {
                     executor.getQueue().put(r);
