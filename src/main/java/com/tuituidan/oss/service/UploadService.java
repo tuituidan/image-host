@@ -83,7 +83,6 @@ public class UploadService {
             // 已存在直接返回，不重复上传
             return minioService.getObjectUrl(objName);
         }
-        fileInfo.setMd5(md5);
         if (fileInfo.isCompress()) {
             sourceData = CompressKit.compress(fileInfo.getExt(), sourceData);
         }
@@ -95,7 +94,7 @@ public class UploadService {
             tags.put("compress", String.valueOf(fileInfo.isCompress()));
             tags.put("md5", md5);
             minioService.putObject(objName, tags, inputStream);
-            elasticsearchService.asyncSaveFileDoc(objName, fileInfo);
+            elasticsearchService.asyncSaveFileDoc(objName,md5,  fileInfo);
             fileCacheService.put(md5, objName);
             return minioService.getObjectUrl(objName);
         } catch (Exception ex) {

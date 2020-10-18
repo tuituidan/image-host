@@ -47,7 +47,7 @@ public class MinioService {
                 log.warn("【{}】的桶不存在，将会创建一个。", minioConfig.getBucket());
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(minioConfig.getBucket()).build());
 
-                // 设置桶为只读权限，注意配置文件中Version的值必须和minio匹配，否则无法设置
+                // 设置桶为只读权限
                 String policy = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
                 policy = policy.replace("bucket-name", minioConfig.getBucket());
                 minioClient.setBucketPolicy(SetBucketPolicyArgs.builder()

@@ -1,4 +1,4 @@
-package com.tuituidan.oss.service;
+package com.tuituidan.oss.kit;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
