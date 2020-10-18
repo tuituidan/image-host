@@ -12,10 +12,6 @@ $(function () {
     $("#search").keypress(function (e) {
         if (e.which === 13) {
             e.preventDefault();
-            let searchVal = $('#search').val();
-            if(!searchVal){
-                return;
-            }
             searchHandler();
         }
     });

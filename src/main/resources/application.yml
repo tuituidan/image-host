@@ -14,6 +14,6 @@ spring:
 # Minio的配置，这是一个用于开发测试的 minio 地址.
 minio:
   endpoint: http://127.0.0.1:9000
-  access-key: minio
-  secret-key: 12345678
+  access-key: minioadmin
+  secret-key: minioadmin
   bucket: image-host

@@ -3,12 +3,14 @@ package com.tuituidan.oss.service;
 import com.tuituidan.oss.bean.FileDoc;
 import com.tuituidan.oss.bean.FileInfo;
 import com.tuituidan.oss.bean.FileQuery;
+import com.tuituidan.oss.consts.Consts;
 import com.tuituidan.oss.kit.BeanKit;
 import com.tuituidan.oss.repository.FileDocRepository;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -45,6 +47,16 @@ public class ElasticsearchService {
     @Resource
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
+    @Resource
+    private FileCacheService fileCacheService;
+
+    @PostConstruct
+    private void init() {
+        if (elasticsearchRestTemplate.indexExists(Consts.ES_INDEX)) {
+            fileDocRepository.findAll().forEach(item -> fileCacheService.put(item.getMd5(), item.getPath()));
+        }
+    }
+
     /**
      * 异步存文件信息.
      *
@@ -55,7 +67,7 @@ public class ElasticsearchService {
         ThreadPoolKit.execute(() -> {
             FileDoc fileDoc = BeanKit.convert(fileInfo, FileDoc.class);
             fileDoc.setPath(objName);
-            fileDoc.setCreateDate(LocalDateTime.now());
+            fileDoc.setCreateDate(new Date());
             fileDocRepository.save(fileDoc);
         });
     }

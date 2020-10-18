@@ -18,4 +18,9 @@ public class Consts {
      */
     public static final String API_V1 = "/api/v1";
 
+    /**
+     * es索引名.
+     */
+    public static final String ES_INDEX = "image-host";
+
 }

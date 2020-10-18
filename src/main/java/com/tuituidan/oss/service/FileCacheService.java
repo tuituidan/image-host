@@ -2,12 +2,8 @@ package com.tuituidan.oss.service;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.tuituidan.oss.repository.FileDocRepository;
 
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
@@ -32,14 +28,6 @@ public class FileCacheService {
             .expireAfterAccess(EXPIRE, TimeUnit.DAYS)
             .maximumSize(MAX_SIZE)
             .build();
-
-    @Resource
-    private FileDocRepository fileDocRepository;
-
-    @PostConstruct
-    private void init() {
-        fileDocRepository.findAll().forEach(item -> CACHE.put(item.getMd5(), item.getPath()));
-    }
 
     /**
      * put.

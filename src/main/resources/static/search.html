@@ -59,15 +59,15 @@
     <div class="col m3">
         <div class="card small hoverable">
             <div class="card-image">
-                <img class="materialboxed" data-caption="{{name}}" src="{{path}}">
+                <img class="materialboxed" data-caption="{{name}}" alt="" src="{{path}}" />
             </div>
             <div class="card-content">
                 <p class="truncate"><span class="left card-title">{{name}}</span><span class="right">{{createDate.substring(0,10)}}</span></p>
-                <p title="{{tags}}" class="truncate real-content">{{tags}}</p>
+                <p class="truncate real-content">{{#tags}}</p>
             </div>
             <div class="card-action">
                 <a href="#">复制链接</a>
-                <a href="#">查看大图</a>
+                <a href="#">编辑标签</a>
                 <a href="#">下载图片</a>
             </div>
         </div>

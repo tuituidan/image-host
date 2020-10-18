@@ -1,7 +1,9 @@
 package com.tuituidan.oss.bean;
 
+import com.tuituidan.oss.consts.Consts;
+
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +21,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  */
 @Getter
 @Setter
-@Document(indexName = "image-host", type = "file")
+@Document(indexName = Consts.ES_INDEX, type = "file")
 public class FileDoc implements Serializable {
     private static final long serialVersionUID = -3633968171072796648L;
     /**
@@ -44,7 +46,7 @@ public class FileDoc implements Serializable {
      * 创建时间.
      */
     @Field(type = FieldType.Date)
-    private LocalDateTime createDate;
+    private Date createDate;
 
     /**
      * 文件存储路径.
