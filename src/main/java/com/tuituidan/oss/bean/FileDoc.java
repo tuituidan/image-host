@@ -51,4 +51,10 @@ public class FileDoc implements Serializable {
      */
     @Field(type = FieldType.Keyword, index = false)
     private String path;
+
+    /**
+     * md5值.
+     */
+    @Field(type = FieldType.Keyword, index = false)
+    private String md5;
 }

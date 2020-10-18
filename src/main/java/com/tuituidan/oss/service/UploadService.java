@@ -39,6 +39,9 @@ public class UploadService {
     @Resource
     private ElasticsearchService elasticsearchService;
 
+    @Resource
+    private FileCacheService fileCacheService;
+
     /**
      * base64数据上传.
      *
@@ -62,7 +65,6 @@ public class UploadService {
     /**
      * 文件上传.
      * TODO 分片上传
-     * TODO 秒传
      * TODO 断点续传
      *
      * @param fileInfo fileInfo
@@ -76,12 +78,18 @@ public class UploadService {
         fileInfo.setExt(ext);
         fileInfo.setId(IdKit.getId());
         byte[] sourceData = getDataFromFileInfo(fileInfo);
-        String md5 = DigestUtils.md5Hex(sourceData);
-        // TODO 这里判断原始文件【md5+是否压缩】是否已经存在，存在直接返回已有的数据实现不重复上传
+        // 是否压缩+文件md5来标识是否是同一个文件
+        String md5 = StringKit.format("{}-{}", DigestUtils.md5Hex(sourceData), fileInfo.isCompress());
+        String objName = fileCacheService.get(md5);
+        if (StringUtils.isNotBlank(objName)) {
+            // 已存在直接返回，不重复上传
+            return minioService.getObjectUrl(objName);
+        }
+        fileInfo.setMd5(md5);
         if (fileInfo.isCompress()) {
             sourceData = CompressKit.compress(fileInfo.getExt(), sourceData);
         }
-        String objName = StringKit.getObjectName(fileInfo.getId(), fileInfo.getExt());
+        objName = StringKit.getObjectName(fileInfo.getId(), fileInfo.getExt());
         try (InputStream inputStream = new ByteArrayInputStream(sourceData)) {
             Map<String, String> tags = HashMapKit.newFixQuarterSize();
             tags.put("info", fileInfo.getTags());
@@ -89,6 +97,7 @@ public class UploadService {
             tags.put("md5", md5);
             minioService.putObject(objName, Tags.newObjectTags(tags), inputStream);
             elasticsearchService.asyncSaveFileDoc(objName, fileInfo);
+            fileCacheService.put(md5, objName);
             return minioService.getObjectUrl(objName);
         } catch (Exception ex) {
             throw ImageHostException.builder().error("上传文件到 MinIO 失败！", ex).build();

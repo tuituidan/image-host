@@ -56,6 +56,11 @@ public class FileInfo {
     private String base64;
 
     /**
+     * md5.
+     */
+    private String md5;
+
+    /**
      * 是否压缩图片.
      */
     private boolean compress;
