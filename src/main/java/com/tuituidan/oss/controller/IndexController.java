@@ -12,10 +12,7 @@ import javax.annotation.Resource;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * IndexController.
@@ -65,6 +62,19 @@ public class IndexController {
     @GetMapping("/files/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") String id) {
         elasticsearchService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * 修改标签接口.
+     *
+     * @param id 文件id
+     * @return Boolean
+     */
+    @ApiOperation("修改标签接口")
+    @PatchMapping("/files/{id}")
+    public ResponseEntity<Void> update(@PathVariable("id") String id, @RequestParam("tag") String tag) {
+        elasticsearchService.update(id, tag);
         return ResponseEntity.noContent().build();
     }
 }

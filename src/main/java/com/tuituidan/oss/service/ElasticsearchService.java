@@ -9,7 +9,6 @@ import com.tuituidan.oss.kit.ThreadPoolKit;
 import com.tuituidan.oss.repository.FileDocRepository;
 
 import java.util.Date;
-import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -107,15 +106,30 @@ public class ElasticsearchService {
     }
 
     /**
+     * 修改标签接口.
+     *
+     * @param id  id
+     * @param tag tag
+     */
+    public void update(String id, String tag) {
+        FileDoc fileDoc = fileDocRepository.findById(id).orElse(null);
+        if (null != fileDoc) {
+            fileDoc.setTags(tag);
+            fileDocRepository.save(fileDoc);
+            minioService.updateTags(fileDoc.getPath(), tag);
+        }
+    }
+
+    /**
      * delete.
      *
      * @param id 需要删除的文件id
      */
     public void delete(String id) {
-        Optional<FileDoc> fileDoc = fileDocRepository.findById(id);
-        if (fileDoc.isPresent()) {
+        FileDoc fileDoc = fileDocRepository.findById(id).orElse(null);
+        if (null != fileDoc) {
             fileDocRepository.deleteById(id);
-            minioService.deleteObject(fileDoc.get().getPath());
+            minioService.deleteObject(fileDoc.getPath());
         }
     }
 

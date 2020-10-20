@@ -4,6 +4,7 @@ import com.tuituidan.oss.config.MinioConfig;
 import com.tuituidan.oss.consts.Separator;
 import com.tuituidan.oss.exception.ImageHostException;
 import com.tuituidan.oss.kit.FileTypeKit;
+import com.tuituidan.oss.kit.HashMapKit;
 
 import io.minio.*;
 
@@ -76,6 +77,28 @@ public class MinioService {
                     .stream(inputStream, -1, ObjectWriteArgs.MIN_MULTIPART_SIZE * 4L).build());
         } catch (Exception ex) {
             throw ImageHostException.builder().error("向 Minio 中上传文件出错，文件名称-【{}】", objectName, ex).build();
+        }
+    }
+
+    /**
+     * 修改标签.
+     *
+     * @param objectName objectName
+     * @param tag        tag
+     */
+    public void updateTags(String objectName, String tag) {
+        try {
+            Map<String, String> tags = minioClient.getObjectTags(GetObjectTagsArgs.builder().build()).get();
+            if (null == tags) {
+                tags = HashMapKit.newFixQuarterSize();
+            }
+            tags.put("info", tag);
+            minioClient.setObjectTags(SetObjectTagsArgs.builder().bucket(minioConfig.getBucket())
+                    .object(objectName)
+                    .tags(tags)
+                    .build());
+        } catch (Exception ex) {
+            throw ImageHostException.builder().error("修改标签失败，文件名称-【{}】，标签-【{}】", objectName, tag, ex).build();
         }
     }
 
