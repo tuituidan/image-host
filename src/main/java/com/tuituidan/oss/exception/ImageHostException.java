@@ -1,6 +1,6 @@
 package com.tuituidan.oss.exception;
 
-import com.tuituidan.oss.kit.StringKit;
+import com.tuituidan.oss.util.StringExtUtils;
 
 import ch.qos.logback.classic.spi.EventArgUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -48,13 +48,13 @@ public class ImageHostException extends RuntimeException {
         private Throwable cause;
 
         public Builder tip(String msg, Object... args) {
-            this.tip = StringKit.format(msg, args);
+            this.tip = StringExtUtils.format(msg, args);
             return this;
         }
 
         public Builder error(String msg, Object... args) {
             this.cause = EventArgUtil.extractThrowable(args);
-            this.error = StringKit.format(msg, args);
+            this.error = StringExtUtils.format(msg, args);
             return this;
         }
 

@@ -1,4 +1,4 @@
-package com.tuituidan.oss.kit;
+package com.tuituidan.oss.util;
 
 import com.idrsolutions.image.png.PngCompressor;
 
@@ -19,7 +19,7 @@ import net.coobird.thumbnailator.Thumbnails;
  */
 @UtilityClass
 @Slf4j
-public class CompressKit {
+public class CompressUtils {
 
     /**
      * 图片质量.
@@ -33,10 +33,10 @@ public class CompressKit {
      * @return 转换后的字节输入流
      */
     public static byte[] compress(String fileExt, byte[] srcBytes) {
-        if (!FileTypeKit.canCompress(fileExt)) {
+        if (!FileTypeUtils.canCompress(fileExt)) {
             return srcBytes;
         }
-        if (FileTypeKit.isPng(fileExt)) {
+        if (FileTypeUtils.isPng(fileExt)) {
             return compressPng(srcBytes);
         }
         return compressJpg(srcBytes);

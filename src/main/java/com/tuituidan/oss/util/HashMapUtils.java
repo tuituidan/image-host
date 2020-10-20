@@ -1,4 +1,4 @@
-package com.tuituidan.oss.kit;
+package com.tuituidan.oss.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import lombok.experimental.UtilityClass;
  * @date 2019/11/6
  */
 @UtilityClass
-public class HashMapKit {
+public class HashMapUtils {
 
 
     private static final int QUARTER_SIZE = 4;

@@ -1,8 +1,9 @@
-package com.tuituidan.oss.kit;
+package com.tuituidan.oss.util;
 
 import com.tuituidan.oss.consts.Separator;
 
 import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,20 +13,38 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.helpers.MessageFormatter;
 
 /**
- * StringKits.
+ * 字符串工具类.
  *
  * @author zhujunhan
  * @version 1.0
  * @date 2020/8/9
  */
 @UtilityClass
-public class StringKit {
+public class StringExtUtils {
 
     /**
      * 从base64字符串中获取文件扩展名.
      */
     private static final Pattern PATTERN = Pattern.compile("data:image/(.*?);base64");
 
+    private static final int SEQ_MIN = 1000;
+    private static final int SEQ_MAX = 9998;
+
+    private static final AtomicInteger ID_SEQ = new AtomicInteger(SEQ_MIN);
+
+    /**
+     * 获取短ID，要求1毫秒内的并发不超过9000.
+     *
+     * @return String
+     */
+    public static String getId() {
+        if (ID_SEQ.intValue() > SEQ_MAX) {
+            ID_SEQ.set(SEQ_MIN);
+        }
+        return Long.toString(Long.parseLong(System.currentTimeMillis()
+                + "" + ID_SEQ.getAndIncrement()), Character.MAX_RADIX);
+    }
+    
     /**
      * 使用 Slf4j 中的字符串格式化方式来格式化字符串.
      *

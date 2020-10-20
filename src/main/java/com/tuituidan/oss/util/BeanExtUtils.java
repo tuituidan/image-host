@@ -1,4 +1,4 @@
-package com.tuituidan.oss.kit;
+package com.tuituidan.oss.util;
 
 import com.tuituidan.oss.exception.ImageHostException;
 
@@ -13,7 +13,7 @@ import org.springframework.beans.BeanUtils;
  * @date 2020/10/14
  */
 @UtilityClass
-public class BeanKit {
+public class BeanExtUtils {
 
     /**
      * bean 转换.

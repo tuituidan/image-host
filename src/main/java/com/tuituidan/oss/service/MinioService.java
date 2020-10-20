@@ -3,13 +3,13 @@ package com.tuituidan.oss.service;
 import com.tuituidan.oss.config.MinioConfig;
 import com.tuituidan.oss.consts.Separator;
 import com.tuituidan.oss.exception.ImageHostException;
-import com.tuituidan.oss.kit.FileTypeKit;
-import com.tuituidan.oss.kit.HashMapKit;
+import com.tuituidan.oss.util.FileTypeUtils;
+import com.tuituidan.oss.util.HashMapUtils;
+import com.tuituidan.oss.util.IoExtUtils;
 
 import io.minio.*;
 
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -17,7 +17,6 @@ import javax.annotation.Resource;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -39,17 +38,21 @@ public class MinioService {
     @Resource
     private MinioClient minioClient;
 
+    /**
+     * 配置桶只读的是个比较长的json字符，放在配置文件中.
+     */
+    private static final String MINIO_CONFIG = "config/minio-policy.json";
 
     @PostConstruct
     private void init() {
-        try (InputStream inputStream = new ClassPathResource("config/minio-policy.json").getInputStream()) {
+        try {
             // 如果该桶不存在，就创建一个
             if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(minioConfig.getBucket()).build())) {
                 log.warn("【{}】的桶不存在，将会创建一个。", minioConfig.getBucket());
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(minioConfig.getBucket()).build());
 
                 // 设置桶为只读权限
-                String policy = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+                String policy = IoExtUtils.toString(new ClassPathResource(MINIO_CONFIG).getInputStream());
                 policy = policy.replace("bucket-name", minioConfig.getBucket());
                 minioClient.setBucketPolicy(SetBucketPolicyArgs.builder()
                         .bucket(minioConfig.getBucket())
@@ -71,7 +74,7 @@ public class MinioService {
     public void putObject(String objectName, Map<String, String> tags, InputStream inputStream) {
         try {
             minioClient.putObject(PutObjectArgs.builder().bucket(minioConfig.getBucket())
-                    .contentType(FileTypeKit.getMediaTypeValue(FilenameUtils.getExtension(objectName)))
+                    .contentType(FileTypeUtils.getMediaTypeValue(FilenameUtils.getExtension(objectName)))
                     .object(objectName)
                     .tags(tags)
                     .stream(inputStream, -1, ObjectWriteArgs.MIN_MULTIPART_SIZE * 4L).build());
@@ -90,7 +93,7 @@ public class MinioService {
         try {
             Map<String, String> tags = minioClient.getObjectTags(GetObjectTagsArgs.builder().build()).get();
             if (null == tags) {
-                tags = HashMapKit.newFixQuarterSize();
+                tags = HashMapUtils.newFixQuarterSize();
             }
             tags.put("info", tag);
             minioClient.setObjectTags(SetObjectTagsArgs.builder().bucket(minioConfig.getBucket())

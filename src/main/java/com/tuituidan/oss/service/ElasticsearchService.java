@@ -4,8 +4,8 @@ import com.tuituidan.oss.bean.FileDoc;
 import com.tuituidan.oss.bean.FileInfo;
 import com.tuituidan.oss.bean.FileQuery;
 import com.tuituidan.oss.consts.Consts;
-import com.tuituidan.oss.kit.BeanKit;
-import com.tuituidan.oss.kit.ThreadPoolKit;
+import com.tuituidan.oss.util.BeanExtUtils;
+import com.tuituidan.oss.util.ThreadPoolUtils;
 import com.tuituidan.oss.repository.FileDocRepository;
 
 import java.util.Date;
@@ -66,8 +66,8 @@ public class ElasticsearchService {
      * @param fileInfo fileInfo
      */
     public void asyncSaveFileDoc(String objName, String md5, FileInfo fileInfo) {
-        ThreadPoolKit.execute(() -> {
-            FileDoc fileDoc = BeanKit.convert(fileInfo, FileDoc.class);
+        ThreadPoolUtils.execute(() -> {
+            FileDoc fileDoc = BeanExtUtils.convert(fileInfo, FileDoc.class);
             fileDoc.setPath(objName);
             fileDoc.setMd5(md5);
             fileDoc.setCreateDate(new Date());

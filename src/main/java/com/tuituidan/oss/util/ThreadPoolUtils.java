@@ -1,4 +1,4 @@
-package com.tuituidan.oss.kit;
+package com.tuituidan.oss.util;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
@@ -14,7 +14,7 @@ import lombok.experimental.UtilityClass;
  * @author zhujunhan
  */
 @UtilityClass
-public class ThreadPoolKit {
+public class ThreadPoolUtils {
     /**
      * 任务等待队列 容量.
      */

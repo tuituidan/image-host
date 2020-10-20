@@ -1,4 +1,4 @@
-package com.tuituidan.oss.kit;
+package com.tuituidan.oss.util;
 
 import com.google.common.collect.Sets;
 
@@ -17,7 +17,7 @@ import org.springframework.http.MediaType;
  * @date 2020/8/11
  */
 @UtilityClass
-public class FileTypeKit {
+public class FileTypeUtils {
     private static final String TEXT_PLAIN = "text/plain";
 
     /**
