@@ -31,7 +31,6 @@
 
 > elasticsearch需要安装ik中文分词插件
 
-# [点击访问DEMO演示](http://www.tuituidan.com/image-host)
 
 ## 图片上传页
 
