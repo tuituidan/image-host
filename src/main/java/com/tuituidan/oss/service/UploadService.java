@@ -62,8 +62,6 @@ public class UploadService {
 
     /**
      * 文件上传.
-     * TODO 分片上传
-     * TODO 断点续传
      *
      * @param fileInfo fileInfo
      * @return String
@@ -94,7 +92,7 @@ public class UploadService {
             tags.put("compress", String.valueOf(fileInfo.isCompress()));
             tags.put("md5", md5);
             minioService.putObject(objName, tags, inputStream);
-            elasticsearchService.asyncSaveFileDoc(objName,md5,  fileInfo);
+            elasticsearchService.asyncSaveFileDoc(objName, md5, fileInfo);
             fileCacheService.put(md5, objName);
             return minioService.getObjectUrl(objName);
         } catch (Exception ex) {

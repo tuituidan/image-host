@@ -73,7 +73,7 @@ public class MinioService {
                     .contentType(FileTypeKit.getMediaTypeValue(FilenameUtils.getExtension(objectName)))
                     .object(objectName)
                     .tags(tags)
-                    .stream(inputStream, -1, ObjectWriteArgs.MIN_MULTIPART_SIZE * 4).build());
+                    .stream(inputStream, -1, ObjectWriteArgs.MIN_MULTIPART_SIZE * 4L).build());
         } catch (Exception ex) {
             throw ImageHostException.builder().error("向 Minio 中上传文件出错，文件名称-【{}】", objectName, ex).build();
         }
@@ -86,7 +86,8 @@ public class MinioService {
      */
     public void deleteObject(String objectName) {
         try {
-            minioClient.removeObject(RemoveObjectArgs.builder().bucket(minioConfig.getBucket()).object(objectName).build());
+            minioClient.removeObject(RemoveObjectArgs.builder()
+                    .bucket(minioConfig.getBucket()).object(objectName).build());
         } catch (Exception ex) {
             throw ImageHostException.builder().error("从 Minio 中删除文件出错，文件名称-【{}】", objectName, ex).build();
         }

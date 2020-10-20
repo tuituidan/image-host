@@ -43,9 +43,6 @@ public class ElasticsearchService {
     private FileDocRepository fileDocRepository;
 
     @Resource
-    private HighLightService highLightService;
-
-    @Resource
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     @Resource
@@ -54,7 +51,11 @@ public class ElasticsearchService {
     @PostConstruct
     private void init() {
         if (elasticsearchRestTemplate.indexExists(Consts.ES_INDEX)) {
-            fileDocRepository.findAll().forEach(item -> fileCacheService.put(item.getMd5(), item.getPath()));
+            fileDocRepository.findAll().forEach(item -> {
+                if (StringUtils.isNotBlank(item.getMd5())) {
+                    fileCacheService.put(item.getMd5(), item.getPath());
+                }
+            });
         }
     }
 
@@ -69,6 +70,7 @@ public class ElasticsearchService {
         ThreadPoolKit.execute(() -> {
             FileDoc fileDoc = BeanKit.convert(fileInfo, FileDoc.class);
             fileDoc.setPath(objName);
+            fileDoc.setMd5(md5);
             fileDoc.setCreateDate(new Date());
             fileDocRepository.save(fileDoc);
         });
@@ -90,13 +92,14 @@ public class ElasticsearchService {
                 .withSort(SortBuilders.scoreSort());
         if (StringUtils.isNotBlank(fileQuery.getTags())) {
             // 高亮标签显示
-            searchQueryBuilder.withHighlightFields(new HighlightBuilder.Field("tags").preTags("<span style=\"color:red\">").postTags("</span>"));
+            searchQueryBuilder.withHighlightFields(new HighlightBuilder.Field("tags")
+                    .preTags("<span style=\"color:red\">").postTags("</span>"));
             searchQueryBuilder.withQuery(QueryBuilders.matchQuery("tags", fileQuery.getTags()))
                     .withSort(SortBuilders.scoreSort());
         } else {
             searchQueryBuilder.withSort(SortBuilders.fieldSort("createDate").order(SortOrder.DESC));
         }
-        Page<FileDoc> fileDocs = elasticsearchRestTemplate.queryForPage(searchQueryBuilder.build(), FileDoc.class, highLightService);
+        Page<FileDoc> fileDocs = elasticsearchRestTemplate.queryForPage(searchQueryBuilder.build(), FileDoc.class);
         if (CollectionUtils.isNotEmpty(fileDocs.getContent())) {
             fileDocs.getContent().forEach(item -> item.setPath(minioService.getObjectUrl(item.getPath())));
         }

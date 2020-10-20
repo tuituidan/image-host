@@ -53,7 +53,7 @@ public class StringKit {
     }
 
     /**
-     * getObjectName
+     * getObjectName.
      *
      * @param id  id
      * @param ext ext
