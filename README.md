@@ -1,4 +1,4 @@
-<img src="https://img.shields.io/badge/springboot-2.2.7.RELEASE-brightgreen" alt="springboot"/><img src="https://img.shields.io/badge/java-1.8-blue" alt="java"/><img src="https://img.shields.io/badge/minio-7.1.4-green" alt="minio"/><img src="https://img.shields.io/badge/elasticsearch-6.8.8-yellowgreen" alt="elasticsearch"/>
+<img src="https://img.shields.io/badge/springboot-2.2.7.RELEASE-brightgreen" alt="springboot"/>  <img src="https://img.shields.io/badge/java-1.8-blue" alt="java"/><img src="https://img.shields.io/badge/minio-7.1.4-green" alt="minio"/>   <img src="https://img.shields.io/badge/elasticsearch-6.7.2-yellowgreen" alt="elasticsearch"/>
 
 # 个人图床(持续开发中。。。)
 使用springboot+minio+elasticsearch+webuploader实现图床，支持给图片打标签进行搜索，支持图片压缩，支持分片上传，秒传，断点续传。
@@ -34,8 +34,8 @@
 
 ## 图片上传页
 
-![index](docs/show/index.jpg)
+![index](https://cdn.staticaly.com/gh/tuituidan/image-host/develop/docs/show/index.jpg)
 
 ## 图片搜索页
 
-![index](docs/show/search.jpg)
+![index](https://cdn.staticaly.com/gh/tuituidan/image-host/develop/docs/show/search.jpg)
