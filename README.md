@@ -34,8 +34,8 @@
 
 ## 图片上传页
 
-![index](https://cdn.staticaly.com/gh/tuituidan/image-host/develop/docs/show/index.jpg)
+![index](https://camo.githubusercontent.com/8cd8dc22888ab46d0112330556744e9ae4e989f4/68747470733a2f2f63646e2e737461746963616c792e636f6d2f67682f74756974756964616e2f696d6167652d686f73742f646576656c6f702f646f63732f73686f772f696e6465782e6a7067)
 
 ## 图片搜索页
 
-![index](https://cdn.staticaly.com/gh/tuituidan/image-host/develop/docs/show/search.jpg)
+![index](https://camo.githubusercontent.com/233a1874584c77bb867f43ab3ff06a61f03ebbb3/68747470733a2f2f63646e2e737461746963616c792e636f6d2f67682f74756974756964616e2f696d6167652d686f73742f646576656c6f702f646f63732f73686f772f7365617263682e6a7067)
