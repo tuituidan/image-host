@@ -5,9 +5,17 @@ import com.tuituidan.oss.consts.Separator;
 import com.tuituidan.oss.exception.ImageHostException;
 import com.tuituidan.oss.util.FileTypeUtils;
 import com.tuituidan.oss.util.HashMapUtils;
-import com.tuituidan.oss.util.IoExtUtils;
+import com.tuituidan.oss.util.StringExtUtils;
 
-import io.minio.*;
+import io.minio.BucketExistsArgs;
+import io.minio.GetObjectTagsArgs;
+import io.minio.MakeBucketArgs;
+import io.minio.MinioClient;
+import io.minio.ObjectWriteArgs;
+import io.minio.PutObjectArgs;
+import io.minio.RemoveObjectArgs;
+import io.minio.SetBucketPolicyArgs;
+import io.minio.SetObjectTagsArgs;
 
 import java.io.InputStream;
 import java.util.Map;
@@ -52,7 +60,7 @@ public class MinioService {
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(minioConfig.getBucket()).build());
 
                 // 设置桶为只读权限
-                String policy = IoExtUtils.toString(new ClassPathResource(MINIO_CONFIG).getInputStream());
+                String policy = StringExtUtils.streamToString(new ClassPathResource(MINIO_CONFIG).getInputStream());
                 policy = policy.replace("bucket-name", minioConfig.getBucket());
                 minioClient.setBucketPolicy(SetBucketPolicyArgs.builder()
                         .bucket(minioConfig.getBucket())

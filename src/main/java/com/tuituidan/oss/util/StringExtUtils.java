@@ -1,13 +1,17 @@
 package com.tuituidan.oss.util;
 
 import com.tuituidan.oss.consts.Separator;
+import com.tuituidan.oss.exception.ImageHostException;
 
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import lombok.experimental.UtilityClass;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.helpers.MessageFormatter;
@@ -44,7 +48,7 @@ public class StringExtUtils {
         return Long.toString(Long.parseLong(System.currentTimeMillis()
                 + "" + ID_SEQ.getAndIncrement()), Character.MAX_RADIX);
     }
-    
+
     /**
      * 使用 Slf4j 中的字符串格式化方式来格式化字符串.
      *
@@ -83,5 +87,19 @@ public class StringExtUtils {
         return StringUtils.join(now.getYear(), Separator.SLASH, now.getMonthValue(),
                 Separator.SLASH, now.getDayOfMonth(), Separator.SLASH, id,
                 Separator.DOT, ext);
+    }
+
+    /**
+     * 扩展IOUtils的流转字符串方法，避免业务中捕获异常以及关闭流.
+     *
+     * @param input input
+     * @return String
+     */
+    public static String streamToString(InputStream input) {
+        try (InputStream sourceIn = input) {
+            return IOUtils.toString(sourceIn, StandardCharsets.UTF_8);
+        } catch (Exception ex) {
+            throw ImageHostException.builder().error("流转字符串失败", ex).build();
+        }
     }
 }

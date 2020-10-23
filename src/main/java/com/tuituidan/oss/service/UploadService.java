@@ -2,7 +2,10 @@ package com.tuituidan.oss.service;
 
 import com.tuituidan.oss.bean.FileInfo;
 import com.tuituidan.oss.exception.ImageHostException;
-import com.tuituidan.oss.util.*;
+import com.tuituidan.oss.util.CompressUtils;
+import com.tuituidan.oss.util.FileTypeUtils;
+import com.tuituidan.oss.util.HashMapUtils;
+import com.tuituidan.oss.util.StringExtUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -45,7 +48,7 @@ public class UploadService {
      * @return String
      */
     public String uploadBase64(InputStream inputStream) {
-        String base64Str = IoExtUtils.toString(inputStream);
+        String base64Str = StringExtUtils.streamToString(inputStream);
         Pair<String, String> base64 = StringExtUtils.getBase64Info(base64Str);
         if (null == base64) {
             throw ImageHostException.builder().error("base64数据格式错误-{}", base64Str).build();
