@@ -59,7 +59,7 @@ public class IndexController {
      * @return Boolean
      */
     @ApiOperation("删除接口")
-    @GetMapping("/files/{id}")
+    @DeleteMapping("/files/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") String id) {
         elasticsearchService.delete(id);
         return ResponseEntity.noContent().build();

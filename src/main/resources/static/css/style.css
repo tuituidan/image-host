@@ -185,3 +185,17 @@ nav .input-field label.active i {
 .real-content{
     line-height: 38px;
 }
+
+.fd-hide {
+    display: none;
+}
+
+.toast {
+    position: fixed;
+    color: white;
+    background-color: #1d1616;
+    padding: 4px 16px;
+    border-radius: 8px;
+    z-index: 99;
+    display: none;
+}

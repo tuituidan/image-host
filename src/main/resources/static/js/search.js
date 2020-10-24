@@ -70,3 +70,21 @@ function loadList() {
         }
     );
 }
+function downloadHandler(cur) {
+    window.open($(cur).data("imgurl"));
+}
+function copyToClipboard(cur) {
+    $(".btnCopy").attr("data-clipboard-text", $(cur).data("imgurl")).click();
+    utils.showMsg("图片地址已复制到剪贴板中", 1000);
+}
+function deleteHandler(cur) {
+    utils.ajaxDelete(
+        "/api/v1/files/" + $(cur).data("id"),
+        {},
+        function (res) {
+            if (res) {
+                $(cur).parents(".card-row").remove();
+            }
+        }
+    );
+}

@@ -4,9 +4,8 @@ import com.tuituidan.oss.bean.FileDoc;
 import com.tuituidan.oss.bean.FileInfo;
 import com.tuituidan.oss.bean.FileQuery;
 import com.tuituidan.oss.consts.Consts;
-import com.tuituidan.oss.util.BeanExtUtils;
-import com.tuituidan.oss.util.ThreadPoolUtils;
 import com.tuituidan.oss.repository.FileDocRepository;
+import com.tuituidan.oss.util.BeanExtUtils;
 
 import java.util.Date;
 
@@ -59,20 +58,18 @@ public class ElasticsearchService {
     }
 
     /**
-     * 异步存文件信息.
+     * 保存文件信息.
      *
      * @param objName  objName
      * @param md5      md5
      * @param fileInfo fileInfo
      */
-    public void asyncSaveFileDoc(String objName, String md5, FileInfo fileInfo) {
-        ThreadPoolUtils.execute(() -> {
-            FileDoc fileDoc = BeanExtUtils.convert(fileInfo, FileDoc.class);
-            fileDoc.setPath(objName);
-            fileDoc.setMd5(md5);
-            fileDoc.setCreateDate(new Date());
-            fileDocRepository.save(fileDoc);
-        });
+    public void saveFileDoc(String objName, String md5, FileInfo fileInfo) {
+        FileDoc fileDoc = BeanExtUtils.convert(fileInfo, FileDoc.class);
+        fileDoc.setPath(objName);
+        fileDoc.setMd5(md5);
+        fileDoc.setCreateDate(new Date());
+        fileDocRepository.save(fileDoc);
     }
 
     /**
@@ -128,6 +125,7 @@ public class ElasticsearchService {
     public void delete(String id) {
         FileDoc fileDoc = fileDocRepository.findById(id).orElse(null);
         if (null != fileDoc) {
+            fileCacheService.remove(fileDoc.getMd5());
             fileDocRepository.deleteById(id);
             minioService.deleteObject(fileDoc.getPath());
         }

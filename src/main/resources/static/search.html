@@ -48,6 +48,7 @@
     <div class="row card-row">
     </div>
 </div>
+<button class="btnCopy fd-hide"></button>
 <!--  Scripts-->
 <script src="js/jquery.min.js"></script>
 <script src="js/materialize.min.js"></script>
@@ -66,9 +67,10 @@
                 <p class="truncate real-content">{{#tags}}</p>
             </div>
             <div class="card-action">
-                <a href="#">复制链接</a>
-                <a href="#">编辑标签</a>
-                <a href="#">下载图片</a>
+                <a href="javascript:void(0);" data-imgurl="{{path}}" onclick="copyToClipboard(this);">复制</a>
+                <a href="javascript:void(0);">编辑</a>
+                <a href="javascript:void(0);" data-id="{{id}}" onclick="deleteHandler(this);">删除</a>
+                <a href="javascript:void(0);" data-imgurl="{{path}}" onclick="downloadHandler(this);">下载</a>
             </div>
         </div>
     </div>

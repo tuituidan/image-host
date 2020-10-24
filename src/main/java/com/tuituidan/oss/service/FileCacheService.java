@@ -48,4 +48,13 @@ public class FileCacheService {
     public String get(String md5) {
         return CACHE.getIfPresent(md5);
     }
+
+    /**
+     * 移除缓存.
+     *
+     * @param md5 md5
+     */
+    public void remove(String md5) {
+        CACHE.invalidate(md5);
+    }
 }
