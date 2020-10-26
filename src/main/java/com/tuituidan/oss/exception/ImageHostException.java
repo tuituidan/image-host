@@ -22,7 +22,7 @@ public class ImageHostException extends RuntimeException {
     /**
      * 非public只被ExceptionBuilder使用.
      *
-     * @param tip tip
+     * @param tip   tip
      * @param error error
      * @param cause cause
      */

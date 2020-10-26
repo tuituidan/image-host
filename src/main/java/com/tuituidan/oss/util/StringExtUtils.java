@@ -46,7 +46,7 @@ public class StringExtUtils {
             ID_SEQ.set(SEQ_MIN);
         }
         return Long.toString(Long.parseLong(System.currentTimeMillis()
-                + "" + ID_SEQ.getAndIncrement()), Character.MAX_RADIX);
+                + String.valueOf(ID_SEQ.getAndIncrement())), Character.MAX_RADIX);
     }
 
     /**

@@ -18,7 +18,6 @@ import org.springframework.http.MediaType;
  */
 @UtilityClass
 public class FileTypeUtils {
-    private static final String TEXT_PLAIN = "text/plain";
 
     /**
      * 上传支持的所有文件格式的集合.
@@ -56,10 +55,10 @@ public class FileTypeUtils {
         EXT_MEDIA_MAP.put("pdf", "application/pdf");
         EXT_MEDIA_MAP.put("json", "application/json;charset=UTF-8");
         EXT_MEDIA_MAP.put("html", "text/html");
-        EXT_MEDIA_MAP.put("js", TEXT_PLAIN);
+        EXT_MEDIA_MAP.put("js", "text/plain");
         EXT_MEDIA_MAP.put("css", "text/css");
         EXT_MEDIA_MAP.put("xml", "text/xml");
-        EXT_MEDIA_MAP.put("txt", TEXT_PLAIN);
+        EXT_MEDIA_MAP.put("txt", "text/plain");
         EXT_MEDIA_MAP.put("md", "text/markdown");
     }
 

@@ -81,19 +81,19 @@ public class UploadService {
             sourceData = CompressUtils.compress(fileInfo.getExt(), sourceData);
         }
         objName = StringExtUtils.getObjectName(fileInfo.getId(), fileInfo.getExt());
+        // minio支持给文件打标签（老一些版本的minio不支持，但也不会报错），将这些信息也一并写入
+        Map<String, String> tags = HashMapUtils.newFixQuarterSize();
+        tags.put("info", fileInfo.getTags());
+        tags.put("compress", String.valueOf(fileInfo.isCompress()));
+        tags.put("md5", md5);
         try (InputStream inputStream = new ByteArrayInputStream(sourceData)) {
-            // minio支持给文件打标签（老一些版本的minio不支持，但也不会报错），将这些信息也一并写入
-            Map<String, String> tags = HashMapUtils.newFixQuarterSize();
-            tags.put("info", fileInfo.getTags());
-            tags.put("compress", String.valueOf(fileInfo.isCompress()));
-            tags.put("md5", md5);
             minioService.putObject(objName, tags, inputStream);
-            elasticsearchService.saveFileDoc(objName, md5, fileInfo);
-            fileCacheService.put(md5, objName);
-            return minioService.getObjectUrl(objName);
         } catch (Exception ex) {
             throw ImageHostException.builder().error("上传文件到 MinIO 失败！", ex).build();
         }
+        elasticsearchService.saveFileDoc(objName, md5, fileInfo);
+        fileCacheService.put(md5, objName);
+        return minioService.getObjectUrl(objName);
     }
 
     private byte[] getDataFromFileInfo(FileInfo fileInfo) {
