@@ -2,13 +2,12 @@ package com.tuituidan.oss.config;
 
 import com.alibaba.fastjson.JSON;
 import com.tuituidan.oss.exception.ImageHostException;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
+import java.util.stream.Collectors;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -68,12 +67,16 @@ public class ElasticsearchConfig extends ElasticsearchConfigurationSupport {
 
             @Override
             public <T> List<T> mapResults(MultiGetResponse responses, Class<T> clazz) {
-                return Collections.emptyList();
+                // findAllById
+                return Arrays.stream(responses.getResponses())
+                        .map(item -> JSON.parseObject(item.getResponse().getSourceAsString(), clazz))
+                        .collect(Collectors.toList());
             }
 
             @Override
             public <T> T mapResult(GetResponse response, Class<T> clazz) {
-                return null;
+                // findById使用
+                return JSON.parseObject(response.getSourceAsString(), clazz);
             }
 
             private <T> void highlightFields(T fileDoc, Map<String, HighlightField> highlightFields) throws

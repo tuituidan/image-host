@@ -170,6 +170,9 @@ nav .input-field label.active i {
 .card .card-content .card-title {
     line-height: 20px;
 }
+.card .card-content .row{
+    margin-bottom: 0;
+}
 .card .card-action {
     padding: 12px;
 }
@@ -185,7 +188,37 @@ nav .input-field label.active i {
 .real-content{
     line-height: 38px;
 }
-
+.search-msg-content{
+    width: 100%;
+    float: left;
+    text-align: center;
+    margin: 20px;
+}
+.confirm{
+    width: 450px;
+    height: 200px !important;
+}
+.edit-model{
+    width: 500px;
+    height: 250px !important;
+}
+.edit-model .row{
+    margin-bottom: 0;
+}
+.modal .modal-close{
+    margin-left: 10px !important;
+}
+.modal-header{
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    background-color: #fafafa;
+    padding: 4px 24px;
+    height: 56px;
+    width: 100%;
+    text-align: left;
+    line-height: 53px;
+    font-size: 18px;
+    font-weight: 500;
+}
 .fd-hide {
     display: none;
 }
