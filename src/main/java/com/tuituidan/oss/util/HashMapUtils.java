@@ -23,7 +23,7 @@ public class HashMapUtils {
     private static final int DEFAULT_SIZE = 16;
 
     /**
-     * 扩容因子1，在已知大小的情况下防止0.75的扩容.
+     * 扩容因子1，在已知大小的情况下，不扩容的利用起剩余的0.25.
      */
     private static final float LOAD_FACTOR = 1F;
 

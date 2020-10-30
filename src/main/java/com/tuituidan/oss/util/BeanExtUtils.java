@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
 import org.springframework.beans.BeanUtils;
 
 /**
- * BeanKit.
+ * BeanExtUtils.
  *
  * @author zhujunhan
  * @version 1.0

@@ -90,7 +90,7 @@ public class StringExtUtils {
     }
 
     /**
-     * 扩展IOUtils的流转字符串方法，避免业务中捕获异常以及关闭流.
+     * IOUtils.toString没有关流，这里统一处理，避免业务中捕获异常以及关闭流.
      *
      * @param input input
      * @return String

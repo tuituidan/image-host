@@ -54,20 +54,20 @@ public class MinioService {
     @PostConstruct
     private void init() {
         try {
-            // 如果该桶不存在，就创建一个
-            if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(minioConfig.getBucket()).build())) {
-                log.warn("【{}】的桶不存在，将会创建一个。", minioConfig.getBucket());
-                minioClient.makeBucket(MakeBucketArgs.builder().bucket(minioConfig.getBucket()).build());
-
-                // 设置桶为只读权限
-                String policy = StringExtUtils.streamToString(new ClassPathResource(MINIO_CONFIG).getInputStream());
-                policy = policy.replace("bucket-name", minioConfig.getBucket());
-                minioClient.setBucketPolicy(SetBucketPolicyArgs.builder()
-                        .bucket(minioConfig.getBucket())
-                        .config(policy)
-                        .build());
-                log.info("【{}】的桶已经创建成功", minioConfig.getBucket());
+            if (minioClient.bucketExists(BucketExistsArgs.builder().bucket(minioConfig.getBucket()).build())) {
+                return;
             }
+            log.warn("【{}】的桶不存在，将会创建一个。", minioConfig.getBucket());
+            minioClient.makeBucket(MakeBucketArgs.builder().bucket(minioConfig.getBucket()).build());
+
+            // 设置桶为只读权限
+            String policy = StringExtUtils.streamToString(new ClassPathResource(MINIO_CONFIG).getInputStream());
+            policy = policy.replace("bucket-name", minioConfig.getBucket());
+            minioClient.setBucketPolicy(SetBucketPolicyArgs.builder()
+                    .bucket(minioConfig.getBucket())
+                    .config(policy)
+                    .build());
+            log.info("【{}】的桶已经创建成功", minioConfig.getBucket());
         } catch (Exception ex) {
             throw ImageHostException.builder().error("初始化创建 MinioClient 出错，请检查！", ex).build();
         }

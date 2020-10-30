@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 
 /**
- * CompressKit.
+ * 图片压缩工具，jpg用Thumbnails，png用OpenViewerFX的PngCompressor.
  *
  * @author zhujunhan
  * @version 1.0
@@ -54,9 +54,9 @@ public class CompressUtils {
     }
 
     private static byte[] compressPng(byte[] datas) {
-        try (InputStream srcIn1 = new ByteArrayInputStream(datas);
+        try (InputStream srcIn = new ByteArrayInputStream(datas);
              ByteArrayOutputStream byteOut = new ByteArrayOutputStream()) {
-            PngCompressor.compress(srcIn1, byteOut);
+            PngCompressor.compress(srcIn, byteOut);
             return byteOut.toByteArray();
         } catch (Exception e) {
             log.error("压缩图片文件出错，将返回原图片流!", e);

@@ -2,6 +2,7 @@ package com.tuituidan.oss.config;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -24,6 +25,12 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class ApiDocConfig {
 
     /**
+     * 通过配置控制是否开启.
+     */
+    @Value("${swagger.show:true}")
+    private boolean swaggerShow;
+
+    /**
      * Docket docket.
      *
      * @return the docket
@@ -31,6 +38,7 @@ public class ApiDocConfig {
     @Bean
     public Docket docket() {
         return new Docket(DocumentationType.OAS_30)
+                .enable(swaggerShow)
                 .groupName("API_1.0")
                 .apiInfo(apiInfo())
                 .select()
