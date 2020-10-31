@@ -56,6 +56,19 @@
             $.ajax({
                 type: "delete",
                 url: url,
+                data: data,
+                cache: false,
+                success: success,
+                error: function (xhr, status, error) {
+                    utils.showMsg(xhr.responseText);
+                }
+            });
+        },
+        ajaxPatch: function (url, data, success) {
+            $.ajax({
+                type: "patch",
+                url: url,
+                data: data,
                 cache: false,
                 success: success,
                 error: function (xhr, status, error) {

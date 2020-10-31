@@ -28,7 +28,7 @@ blockquote {
     animation: octocat-wave 560ms ease-in-out;
 }
 .github-svg{
-    fill:#263238; color:#fff; position: absolute; top: 0; border: 0; right: 0;
+    fill:#fff; color:#37474f; position: absolute; top: 0; border: 0; right: 0;
 }
 @media (max-width: 991px) {
     .github-corner >svg {

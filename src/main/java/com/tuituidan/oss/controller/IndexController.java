@@ -79,8 +79,18 @@ public class IndexController {
      */
     @ApiOperation("修改标签接口")
     @PatchMapping("/files/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") String id, @RequestParam("tag") String tag) {
-        elasticsearchService.update(id, tag);
+    public ResponseEntity<Void> update(@PathVariable("id") String id, @RequestParam("tags") String tags) {
+        elasticsearchService.update(id, tags);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * 下载.
+     *
+     * @param id id
+     */
+    @GetMapping("/files/{id}/actions/download")
+    public void download(@PathVariable("id") String id) {
+        elasticsearchService.download(id);
     }
 }

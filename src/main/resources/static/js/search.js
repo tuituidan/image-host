@@ -16,6 +16,7 @@ $(function () {
             searchHandler();
         }
     });
+    new ClipboardJS('.btnCopy');
     searchHandler();
     //距离底部10像素的时候加载下一页
     scrollBottom(10);
@@ -76,7 +77,7 @@ function loadList() {
 }
 
 function downloadHandler(cur) {
-    window.open($(cur).data("imgurl"));
+    window.open("/api/v1/files/" + $(cur).data("id") + "/actions/download");
 }
 
 function copyToClipboard(cur) {
@@ -107,10 +108,19 @@ function editHandler(cur) {
     let editTagsCtl = $('#ctl_tags');
     if (cur) {
         editIdCtl.text($(cur).data("id"));
-        editTagsCtl.val($(cur).data("tags"));
         $('#editModal').modal('open');
         return;
     }
-    // ss
-    alert(1);
+    let id = editIdCtl.text();
+    let tags = editTagsCtl.val();
+    utils.ajaxPatch(
+        "/api/v1/files/" + editIdCtl.text(),
+        {
+            tags: tags
+        },
+        function () {
+            $('#editModal').modal('close');
+            $("#" + id + " .real-content").text(tags)
+        }
+    );
 }

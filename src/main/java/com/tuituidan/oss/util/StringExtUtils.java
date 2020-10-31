@@ -4,6 +4,7 @@ import com.tuituidan.oss.consts.Separator;
 import com.tuituidan.oss.exception.ImageHostException;
 
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -87,6 +88,34 @@ public class StringExtUtils {
         return StringUtils.join(now.getYear(), Separator.SLASH, now.getMonthValue(),
                 Separator.SLASH, now.getDayOfMonth(), Separator.SLASH, id,
                 Separator.DOT, ext);
+    }
+
+    /**
+     * 字符串编码.
+     *
+     * @param source source
+     * @return String
+     */
+    public static String urlEncoder(String source) {
+        try {
+            return URLEncoder.encode(source, StandardCharsets.UTF_8.name());
+        } catch (Exception ex) {
+            throw ImageHostException.builder().error("编码失败，字符串：{}", source, ex).build();
+        }
+    }
+
+    /**
+     * toIso88591.
+     *
+     * @param source source
+     * @return String
+     */
+    public static String toIso88591(String source) {
+        try {
+            return new String(source.getBytes(StandardCharsets.UTF_8.name()), StandardCharsets.ISO_8859_1.name());
+        } catch (Exception ex) {
+            throw ImageHostException.builder().error("编码失败，字符串：{}", source, ex).build();
+        }
     }
 
     /**

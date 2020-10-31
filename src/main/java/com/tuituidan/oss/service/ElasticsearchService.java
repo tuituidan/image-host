@@ -6,6 +6,7 @@ import com.tuituidan.oss.bean.FileQuery;
 import com.tuituidan.oss.consts.Consts;
 import com.tuituidan.oss.repository.FileDocRepository;
 import com.tuituidan.oss.util.BeanExtUtils;
+import com.tuituidan.oss.util.ResponseUtils;
 
 import java.util.Date;
 
@@ -106,14 +107,14 @@ public class ElasticsearchService {
      * 修改标签接口.
      *
      * @param id  id
-     * @param tag tag
+     * @param tags tags
      */
-    public void update(String id, String tag) {
+    public void update(String id, String tags) {
         FileDoc fileDoc = fileDocRepository.findById(id).orElse(null);
         if (null != fileDoc) {
-            fileDoc.setTags(tag);
+            fileDoc.setTags(tags);
             fileDocRepository.save(fileDoc);
-            minioService.updateTags(fileDoc.getPath(), tag);
+            minioService.updateTags(fileDoc.getPath(), tags);
         }
     }
 
@@ -129,6 +130,16 @@ public class ElasticsearchService {
             fileDocRepository.deleteById(id);
             minioService.deleteObject(fileDoc.getPath());
         }
+    }
+
+    /**
+     * 文件下载.
+     *
+     * @param id id
+     */
+    public void download(String id) {
+        FileDoc fileDoc = fileDocRepository.findById(id).orElseThrow(NullPointerException::new);
+        ResponseUtils.download(fileDoc.getName(), minioService.getObject(fileDoc.getPath()));
     }
 
 }

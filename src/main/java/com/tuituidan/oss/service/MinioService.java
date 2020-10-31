@@ -8,6 +8,7 @@ import com.tuituidan.oss.util.HashMapUtils;
 import com.tuituidan.oss.util.StringExtUtils;
 
 import io.minio.BucketExistsArgs;
+import io.minio.GetObjectArgs;
 import io.minio.GetObjectTagsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
@@ -18,6 +19,7 @@ import io.minio.SetBucketPolicyArgs;
 import io.minio.SetObjectTagsArgs;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -99,9 +101,14 @@ public class MinioService {
      */
     public void updateTags(String objectName, String tag) {
         try {
-            Map<String, String> tags = minioClient.getObjectTags(GetObjectTagsArgs.builder().build()).get();
+            Map<String, String> tags = minioClient.getObjectTags(GetObjectTagsArgs.builder()
+                    .bucket(minioConfig.getBucket())
+                    .object(objectName)
+                    .build()).get();
             if (null == tags) {
                 tags = HashMapUtils.newFixQuarterSize();
+            } else {
+                tags = new HashMap<>(tags);
             }
             tags.put("info", tag);
             minioClient.setObjectTags(SetObjectTagsArgs.builder().bucket(minioConfig.getBucket())
@@ -124,6 +131,21 @@ public class MinioService {
                     .bucket(minioConfig.getBucket()).object(objectName).build());
         } catch (Exception ex) {
             throw ImageHostException.builder().error("从 Minio 中删除文件出错，文件名称-【{}】", objectName, ex).build();
+        }
+    }
+
+    /**
+     * getObject.
+     *
+     * @param objectName objectName
+     * @return InputStream
+     */
+    public InputStream getObject(String objectName) {
+        try {
+            return minioClient.getObject(GetObjectArgs.builder()
+                    .bucket(minioConfig.getBucket()).object(objectName).build());
+        } catch (Exception ex) {
+            throw ImageHostException.builder().error("从 Minio 中获取文件出错，文件名称-【{}】", objectName, ex).build();
         }
     }
 
