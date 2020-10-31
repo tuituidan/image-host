@@ -2,13 +2,14 @@ package com.tuituidan.oss.config;
 
 import com.alibaba.fastjson.JSON;
 import com.tuituidan.oss.exception.ImageHostException;
-import java.lang.reflect.InvocationTargetException;
+import com.tuituidan.oss.util.BeanExtUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.apache.commons.beanutils.BeanUtils;
+
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.elasticsearch.action.get.GetResponse;
@@ -79,14 +80,12 @@ public class ElasticsearchConfig extends ElasticsearchConfigurationSupport {
                 return JSON.parseObject(response.getSourceAsString(), clazz);
             }
 
-            private <T> void highlightFields(T fileDoc, Map<String, HighlightField> highlightFields) throws
-                    InvocationTargetException,
-                    IllegalAccessException {
+            private <T> void highlightFields(T fileDoc, Map<String, HighlightField> highlightFields) {
                 if (MapUtils.isEmpty(highlightFields)) {
                     return;
                 }
                 for (Map.Entry<String, HighlightField> item : highlightFields.entrySet()) {
-                    BeanUtils.setProperty(fileDoc, item.getKey(), item.getValue().fragments()[0].toString());
+                    BeanExtUtils.setProperty(fileDoc, item.getKey(), item.getValue().fragments()[0].toString());
                 }
             }
         };

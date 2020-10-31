@@ -2,6 +2,8 @@ package com.tuituidan.oss.util;
 
 import com.tuituidan.oss.exception.ImageHostException;
 
+import java.lang.reflect.Field;
+
 import lombok.experimental.UtilityClass;
 import org.springframework.beans.BeanUtils;
 
@@ -14,6 +16,24 @@ import org.springframework.beans.BeanUtils;
  */
 @UtilityClass
 public class BeanExtUtils {
+
+    /**
+     * 给对象属性赋值.
+     *
+     * @param bean  bean
+     * @param name  name
+     * @param value value
+     */
+    public static void setProperty(Object bean, String name, Object value) {
+        try {
+            Field field = bean.getClass().getDeclaredField(name);
+            field.setAccessible(true);
+            field.set(bean, value);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(StringExtUtils.format("对象属性设置失败，class：{}，name：{}，value：{}",
+                    bean.getClass().getName(), name, value), ex);
+        }
+    }
 
     /**
      * bean 转换.
