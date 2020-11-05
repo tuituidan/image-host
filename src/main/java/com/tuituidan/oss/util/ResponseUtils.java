@@ -35,7 +35,7 @@ public class ResponseUtils {
     /**
      * 下载方法.
      *
-     * @param fileName    文件名
+     * @param fileName 文件名
      * @param inputStream 文件流
      */
     public static void download(String fileName, InputStream inputStream) {
@@ -55,12 +55,15 @@ public class ResponseUtils {
     private static HttpServletResponse getHttpResponse(String fileName) {
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
         if (!(attributes instanceof ServletRequestAttributes)) {
-            throw ImageHostException.builder().error("获取ServletRequestAttributes失败").build();
+            throw new ClassCastException("获取ServletRequestAttributes失败");
         }
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (null == sra) {
+            throw new NullPointerException("获取HttpServletResponse失败");
+        }
         HttpServletResponse response = sra.getResponse();
         if (null == response) {
-            throw ImageHostException.builder().error("获取HttpServletResponse失败").build();
+            throw new NullPointerException("获取HttpServletResponse失败");
         }
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);

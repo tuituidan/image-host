@@ -58,8 +58,8 @@ public class ElasticsearchConfig extends ElasticsearchConfigurationSupport {
                         T fileDoc = JSON.parseObject(searchHit.getSourceAsString(), clazz);
                         highlightFields(fileDoc, searchHit.getHighlightFields());
                         resultList.add(fileDoc);
-                    } catch (Exception e) {
-                        throw ImageHostException.builder().error("标签高亮显示失败", e).build();
+                    } catch (Exception ex) {
+                        throw new ImageHostException("标签高亮显示失败", ex);
                     }
                 }
                 return new AggregatedPageImpl<>(resultList, pageable, response.getHits().getTotalHits());

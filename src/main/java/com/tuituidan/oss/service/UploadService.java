@@ -51,7 +51,8 @@ public class UploadService {
         String base64Str = StringExtUtils.streamToString(inputStream);
         Pair<String, String> base64 = StringExtUtils.getBase64Info(base64Str);
         if (null == base64) {
-            throw ImageHostException.builder().error("base64数据格式错误-{}", base64Str).build();
+            throw ImageHostException.builder().tip("base64数据格式错误")
+                    .error("base64数据格式错误-{}", base64Str).build();
         }
         return upload(new FileInfo().setName("image." + base64.getLeft()).setBase64(base64.getRight()));
     }
@@ -89,7 +90,8 @@ public class UploadService {
         try (InputStream inputStream = new ByteArrayInputStream(sourceData)) {
             minioService.putObject(objName, tags, inputStream);
         } catch (Exception ex) {
-            throw ImageHostException.builder().error("上传文件到 MinIO 失败！", ex).build();
+            throw ImageHostException.builder().tip("文件上传失败")
+                    .error("上传文件到 MinIO 失败，文件名-{}", fileInfo.getName(), ex).build();
         }
         elasticsearchService.saveFileDoc(objName, md5, fileInfo);
         fileCacheService.put(md5, objName);
@@ -104,7 +106,7 @@ public class UploadService {
             }
             return fileInfo.getFile().getBytes();
         } catch (Exception ex) {
-            throw ImageHostException.builder().error("获取文件数据失败！", ex).build();
+            throw ImageHostException.builder().tip("文件上传失败").error("获取文件数据失败！", ex).build();
         }
     }
 }

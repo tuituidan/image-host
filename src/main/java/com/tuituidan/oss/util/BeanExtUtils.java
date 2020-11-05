@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.ReflectionUtils;
 
 /**
  * BeanExtUtils.
@@ -20,15 +21,15 @@ public class BeanExtUtils {
     /**
      * 给对象属性赋值.
      *
-     * @param bean  bean
-     * @param name  name
+     * @param bean bean
+     * @param name name
      * @param value value
      */
     public static void setProperty(Object bean, String name, Object value) {
         try {
             Field field = bean.getClass().getDeclaredField(name);
-            field.setAccessible(true);
-            field.set(bean, value);
+            ReflectionUtils.makeAccessible(field);
+            ReflectionUtils.setField(field, bean, value);
         } catch (Exception ex) {
             throw new IllegalArgumentException(StringExtUtils.format("对象属性设置失败，class：{}，name：{}，value：{}",
                     bean.getClass().getName(), name, value), ex);
@@ -39,8 +40,8 @@ public class BeanExtUtils {
      * bean 转换.
      *
      * @param source source
-     * @param cls    cls
-     * @param <T>    T
+     * @param cls cls
+     * @param <T> T
      * @return T
      */
     public static <T> T convert(Object source, Class<T> cls) {
@@ -56,7 +57,7 @@ public class BeanExtUtils {
         try {
             return cls.getDeclaredConstructor().newInstance();
         } catch (Exception ex) {
-            throw ImageHostException.builder().error("反射创建对象失败，className：【{}】", cls.getName(), ex).build();
+            throw new ImageHostException("反射创建对象失败，className：【{}】", cls.getName(), ex);
         }
     }
 

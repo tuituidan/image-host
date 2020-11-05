@@ -54,7 +54,7 @@ public class StringExtUtils {
      * 使用 Slf4j 中的字符串格式化方式来格式化字符串.
      *
      * @param pattern 待格式化的字符串
-     * @param args    参数
+     * @param args 参数
      * @return 格式化后的字符串
      */
     public static String format(String pattern, Object... args) {
@@ -79,7 +79,7 @@ public class StringExtUtils {
     /**
      * getObjectName.
      *
-     * @param id  id
+     * @param id id
      * @param ext ext
      * @return String
      */
@@ -114,7 +114,7 @@ public class StringExtUtils {
         try {
             return new String(source.getBytes(StandardCharsets.UTF_8.name()), StandardCharsets.ISO_8859_1.name());
         } catch (Exception ex) {
-            throw ImageHostException.builder().error("编码失败，字符串：{}", source, ex).build();
+            throw new ImageHostException("编码失败，字符串：{}", source, ex);
         }
     }
 
@@ -128,7 +128,7 @@ public class StringExtUtils {
         try (InputStream sourceIn = input) {
             return IOUtils.toString(sourceIn, StandardCharsets.UTF_8);
         } catch (Exception ex) {
-            throw ImageHostException.builder().error("流转字符串失败", ex).build();
+            throw new ImageHostException("流转字符串失败", ex);
         }
     }
 }

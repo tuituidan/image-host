@@ -71,14 +71,14 @@ public class MinioService {
                     .build());
             log.info("【{}】的桶已经创建成功", minioConfig.getBucket());
         } catch (Exception ex) {
-            throw ImageHostException.builder().error("初始化创建 MinioClient 出错，请检查！", ex).build();
+            throw new ImageHostException("初始化创建 MinioClient 出错，请检查！", ex);
         }
     }
 
     /**
      * 上传文件到 Minio 中.
      *
-     * @param objectName  对象名
+     * @param objectName 对象名
      * @param inputStream 文件流
      */
     public void putObject(String objectName, Map<String, String> tags, InputStream inputStream) {
@@ -89,7 +89,8 @@ public class MinioService {
                     .tags(tags)
                     .stream(inputStream, -1, ObjectWriteArgs.MIN_MULTIPART_SIZE * 4L).build());
         } catch (Exception ex) {
-            throw ImageHostException.builder().error("向 Minio 中上传文件出错，文件名称-【{}】", objectName, ex).build();
+            throw ImageHostException.builder().tip("文书上传失败")
+                    .error("向 Minio 中上传文件出错，文件名称-【{}】", objectName, ex).build();
         }
     }
 
@@ -97,7 +98,7 @@ public class MinioService {
      * 修改标签.
      *
      * @param objectName objectName
-     * @param tag        tag
+     * @param tag tag
      */
     public void updateTags(String objectName, String tag) {
         try {
@@ -116,7 +117,8 @@ public class MinioService {
                     .tags(tags)
                     .build());
         } catch (Exception ex) {
-            throw ImageHostException.builder().error("修改标签失败，文件名称-【{}】，标签-【{}】", objectName, tag, ex).build();
+            throw ImageHostException.builder().tip("标签修改失败")
+                    .error("修改标签失败，文件名称-【{}】，标签-【{}】", objectName, tag, ex).build();
         }
     }
 
@@ -130,7 +132,8 @@ public class MinioService {
             minioClient.removeObject(RemoveObjectArgs.builder()
                     .bucket(minioConfig.getBucket()).object(objectName).build());
         } catch (Exception ex) {
-            throw ImageHostException.builder().error("从 Minio 中删除文件出错，文件名称-【{}】", objectName, ex).build();
+            throw ImageHostException.builder().tip("文件删除失败")
+                    .error("从 Minio 中删除文件出错，文件名称-【{}】", objectName, ex).build();
         }
     }
 
@@ -145,7 +148,8 @@ public class MinioService {
             return minioClient.getObject(GetObjectArgs.builder()
                     .bucket(minioConfig.getBucket()).object(objectName).build());
         } catch (Exception ex) {
-            throw ImageHostException.builder().error("从 Minio 中获取文件出错，文件名称-【{}】", objectName, ex).build();
+            throw ImageHostException.builder().tip("文件获取失败")
+                    .error("从 Minio 中获取文件出错，文件名称-【{}】", objectName, ex).build();
         }
     }
 
