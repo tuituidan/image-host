@@ -42,4 +42,9 @@ public class Separator {
      * 中文逗号.
      */
     public static final String COMMA_CN = "，";
+
+    /**
+     * 等号.
+     */
+    public static final String EQUAL = "=";
 }

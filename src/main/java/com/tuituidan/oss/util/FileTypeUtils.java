@@ -1,12 +1,16 @@
 package com.tuituidan.oss.util;
 
 import com.google.common.collect.Sets;
-
-import java.util.HashMap;
+import com.tuituidan.oss.consts.Separator;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Set;
-
+import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 
 /**
@@ -17,6 +21,7 @@ import org.springframework.http.MediaType;
  * @date 2020/8/11
  */
 @UtilityClass
+@Slf4j
 public class FileTypeUtils {
 
     /**
@@ -32,46 +37,28 @@ public class FileTypeUtils {
     private static final Set<String> COMPRESS_EXTS = Sets.newHashSet("jpg", "jpeg", "png");
 
     /**
-     * key 为文件扩展名，value 为 {@link MediaType} 的字符串值的 Map.
+     * key 为文件扩展名，value 为MediaType的字符串值的 Map.
      */
-    private static final Map<String, String> EXT_MEDIA_MAP = new HashMap<>();
+    private static Map<String, String> mimeTypeMap;
 
     static {
-        EXT_MEDIA_MAP.put("jpg", "image/jpeg");
-        EXT_MEDIA_MAP.put("jpeg", "image/jpeg");
-        EXT_MEDIA_MAP.put("png", "image/png");
-        EXT_MEDIA_MAP.put("gif", "image/gif");
-        EXT_MEDIA_MAP.put("svg", "image/svg+xml");
-        EXT_MEDIA_MAP.put("bmp", "image/bmp");
-        EXT_MEDIA_MAP.put("tif", "image/tiff");
-        EXT_MEDIA_MAP.put("tiff", "image/tiff");
-        EXT_MEDIA_MAP.put("ico", "image/x-icon");
-        EXT_MEDIA_MAP.put("webp", "image/webp");
-        EXT_MEDIA_MAP.put("swf", "application/x-shockwave-flash");
-        EXT_MEDIA_MAP.put("avi", "video/x-msvideo");
-        EXT_MEDIA_MAP.put("mp3", "audio/mpeg");
-        EXT_MEDIA_MAP.put("mp4", "video/mp4");
-        EXT_MEDIA_MAP.put("wav", "audio/wav");
-        EXT_MEDIA_MAP.put("pdf", "application/pdf");
-        EXT_MEDIA_MAP.put("json", "application/json;charset=UTF-8");
-        EXT_MEDIA_MAP.put("html", "text/html");
-        EXT_MEDIA_MAP.put("js", "text/plain");
-        EXT_MEDIA_MAP.put("css", "text/css");
-        EXT_MEDIA_MAP.put("xml", "text/xml");
-        EXT_MEDIA_MAP.put("txt", "text/plain");
-        EXT_MEDIA_MAP.put("md", "text/markdown");
+        try (InputStream srcIn = new ClassPathResource("config/mime-type.properties").getInputStream()) {
+            mimeTypeMap = IOUtils.readLines(srcIn, StandardCharsets.UTF_8).stream()
+                    .map(item -> item.split(Separator.EQUAL))
+                    .collect(Collectors.toMap(item -> item[0], item -> item[1]));
+        } catch (Exception ex) {
+            log.error("读取mime-type配置出错！", ex);
+        }
     }
 
     /**
-     * 根据文件扩展名获取其对应的 {@link MediaType} 的字符串值，
-     * 如果找不到，则默认返回 {@code application/octet-stream} 值.
+     * 根据文件扩展名获取其对应的MediaType的字符串值， 如果找不到，则默认返回application/octet-stream.
      *
      * @param ext 文件扩展名，不含点 ({@code .}) 号
-     * @return {@link MediaType} 的字符串值
+     * @return MediaType的字符串值
      */
     public static String getMediaTypeValue(String ext) {
-        String mediaTypeValue = EXT_MEDIA_MAP.get(ext);
-        return mediaTypeValue != null ? mediaTypeValue : MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        return mimeTypeMap.getOrDefault(ext, MediaType.APPLICATION_OCTET_STREAM_VALUE);
     }
 
     /**
