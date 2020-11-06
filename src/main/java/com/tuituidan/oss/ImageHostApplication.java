@@ -1,5 +1,7 @@
 package com.tuituidan.oss;
 
+import com.tuituidan.oss.util.IpUtils;
+
 import javax.annotation.Resource;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,6 @@ public class ImageHostApplication implements CommandLineRunner {
     public void run(String... args) {
         String port = environment.getProperty("local.server.port");
         String contextPath = environment.getProperty("server.servlet.context-path", "");
-        log.info("http://localhost:" + port + contextPath);
+        log.info("http://{}:{}{}", IpUtils.getIpAddress(), port, contextPath);
     }
 }
