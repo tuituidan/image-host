@@ -1,16 +1,16 @@
 package com.tuituidan.oss.util;
 
 import com.google.common.collect.Sets;
-import com.tuituidan.oss.consts.Separator;
-import java.io.InputStream;
+
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.support.EncodedResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.MediaType;
 
 /**
@@ -36,16 +36,13 @@ public class FileTypeUtils {
      */
     private static final Set<String> COMPRESS_EXTS = Sets.newHashSet("jpg", "jpeg", "png");
 
-    /**
-     * key 为文件扩展名，value 为MediaType的字符串值的 Map.
-     */
-    private static Map<String, String> mimeTypeMap;
+    private static Properties properties;
 
     static {
-        try (InputStream srcIn = new ClassPathResource("config/mime-type.properties").getInputStream()) {
-            mimeTypeMap = IOUtils.readLines(srcIn, StandardCharsets.UTF_8).stream()
-                    .map(item -> item.split(Separator.EQUAL))
-                    .collect(Collectors.toMap(item -> item[0], item -> item[1]));
+        try {
+            EncodedResource encodedResource = new EncodedResource(new ClassPathResource("config/mime-type.properties"),
+                    StandardCharsets.UTF_8);
+            properties = PropertiesLoaderUtils.loadProperties(encodedResource);
         } catch (Exception ex) {
             log.error("读取mime-type配置出错！", ex);
         }
@@ -58,7 +55,7 @@ public class FileTypeUtils {
      * @return MediaType的字符串值
      */
     public static String getMediaTypeValue(String ext) {
-        return mimeTypeMap.getOrDefault(ext, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        return properties.getProperty(ext, MediaType.APPLICATION_OCTET_STREAM_VALUE);
     }
 
     /**
